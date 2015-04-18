@@ -37,7 +37,7 @@ public class LoginDao {
 
             if (resultado.next()) {
                 usuarioSelecionado = new Usuario();
-                usuarioSelecionado.setIdlogin(resultado.getInt("IDLogin"));
+                //usuarioSelecionado.setId(resultado.getString("IDLogin"));
                 usuarioSelecionado.setNome(resultado.getString("Nome"));
                 usuarioSelecionado.setUsuario(resultado.getString("Usuario"));
                 usuarioSelecionado.setNivelUsuario(resultado.getInt("Nivel"));

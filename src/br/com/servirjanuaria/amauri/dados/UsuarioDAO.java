@@ -38,7 +38,7 @@ public class UsuarioDAO {
 
             if (resultado.next()) {
                 usuarioSelecionado = new Usuario();
-                usuarioSelecionado.setIdlogin(resultado.getInt("IDLogin"));
+                //usuarioSelecionado.setIdlogin(resultado.getInt("IDLogin"));
                 usuarioSelecionado.setNome(resultado.getString("Nome"));
                 usuarioSelecionado.setUsuario(resultado.getString("Usuario"));
             }
