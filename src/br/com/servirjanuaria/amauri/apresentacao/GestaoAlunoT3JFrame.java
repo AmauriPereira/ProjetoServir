@@ -46,13 +46,12 @@ public class GestaoAlunoT3JFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Matrícula de Aluno: Inserção de Dados");
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Deficiência/Transtorno Grobais de Desenvolvimento/Altas"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Deficiência/Transtorno Globais de Desenvolvimento/Altas"));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -178,9 +177,7 @@ public class GestaoAlunoT3JFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jButton3.setText("Ok");
-
-        jButton4.setText("Cancelar");
+        jButton3.setText("Finalizar");
 
         jButton5.setText("Voltar");
 
@@ -198,8 +195,6 @@ public class GestaoAlunoT3JFrame extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4)
-                        .addGap(18, 18, 18)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -215,7 +210,6 @@ public class GestaoAlunoT3JFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
-                    .addComponent(jButton4)
                     .addComponent(jButton5))
                 .addContainerGap())
         );
@@ -280,7 +274,6 @@ public class GestaoAlunoT3JFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;

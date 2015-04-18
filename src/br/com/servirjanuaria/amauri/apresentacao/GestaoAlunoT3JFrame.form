@@ -57,8 +57,6 @@
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           <Component id="jButton5" min="-2" pref="71" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jButton4" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jButton3" min="-2" pref="73" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -78,7 +76,6 @@
                   <EmptySpace pref="16" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButton5" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -91,7 +88,7 @@
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Defici&#xea;ncia/Transtorno Grobais de Desenvolvimento/Altas"/>
+                <TitledBorder title="Defici&#xea;ncia/Transtorno Globais de Desenvolvimento/Altas"/>
               </Border>
             </Property>
           </Properties>
@@ -318,12 +315,7 @@
         </Container>
         <Component class="javax.swing.JButton" name="jButton3">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Ok"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="jButton4">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Cancelar"/>
+            <Property name="text" type="java.lang.String" value="Finalizar"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButton5">
