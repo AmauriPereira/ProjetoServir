@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.servirjanuaria.amauri.entidade;
+package br.com.servirjanuaria.amauri.domainModel;
 
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,13 +29,13 @@ public class Endereco implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "rua", length = 255)
+    @Column(name = "rua", length = 255, nullable = false)
     private String rua;
 
-    @Column(name = "numero", length = 10)
+    @Column(name = "numero", length = 10, nullable = false)
     private String numero;
 
-    @Column(name = "cep", length = 10, unique = false)
+    @Column(name = "cep", length = 10, nullable = false, unique = false)
     private String cep;
 
     @Column(name = "cod_consumidor_copasa", length = 30)
@@ -45,11 +44,10 @@ public class Endereco implements Serializable {
     @Column(name = "complemento", length = 255)
     private String complemento;
 
-    @Column(name = "cidade", length = 100)
+    @Column(name = "cidade", length = 100, nullable = false)
     private String cidade;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "bairroID")
+    @ManyToOne()
     private Bairro bairro;
 
     public Long getId() {

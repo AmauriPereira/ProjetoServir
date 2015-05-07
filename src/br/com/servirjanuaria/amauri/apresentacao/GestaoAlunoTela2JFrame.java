@@ -9,12 +9,12 @@ package br.com.servirjanuaria.amauri.apresentacao;
  *
  * @author Amauri
  */
-public class GestaoAlunoT2JFrame extends javax.swing.JFrame {
+public class GestaoAlunoTela2JFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form CadastroAlunoT2JFrame
      */
-    public GestaoAlunoT2JFrame() {
+    public GestaoAlunoTela2JFrame() {
         initComponents();
     }
 
@@ -502,21 +502,27 @@ public class GestaoAlunoT2JFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GestaoAlunoT2JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestaoAlunoTela2JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GestaoAlunoT2JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestaoAlunoTela2JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GestaoAlunoT2JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestaoAlunoTela2JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GestaoAlunoT2JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestaoAlunoTela2JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GestaoAlunoT2JFrame().setVisible(true);
+                new GestaoAlunoTela2JFrame().setVisible(true);
             }
         });
     }
@@ -560,7 +566,6 @@ public class GestaoAlunoT2JFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

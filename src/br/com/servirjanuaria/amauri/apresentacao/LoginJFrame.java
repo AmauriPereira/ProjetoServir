@@ -5,7 +5,7 @@
  */
 package br.com.servirjanuaria.amauri.apresentacao;
 
-import br.com.servirjanuaria.amauri.entidade.Usuario;
+import br.com.servirjanuaria.amauri.domainModel.Usuario;
 import br.com.servirjanuaria.amauri.excecao.exceptionErroLogin;
 import br.com.servirjanuaria.amauri.negocio.LoginBO;
 import br.com.servirjanuaria.amauri.utillitarios.CriptografiaUtil;

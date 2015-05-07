@@ -6,7 +6,7 @@
 package br.com.servirjanuaria.amauri.apresentacao;
 
 import static br.com.servirjanuaria.amauri.apresentacao.LoginJFrame.getInstancia;
-import br.com.servirjanuaria.amauri.entidade.Usuario;
+import br.com.servirjanuaria.amauri.domainModel.Usuario;
 import java.awt.Dimension;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.event.ActionEvent;

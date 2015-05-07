@@ -5,8 +5,8 @@
  */
 package br.com.servirjanuaria.amauri.negocio;
 
-import br.com.servirjanuaria.amauri.dados.LoginDao;
-import br.com.servirjanuaria.amauri.entidade.Usuario;
+import br.com.servirjanuaria.amauri.dataAccess.LoginDao;
+import br.com.servirjanuaria.amauri.domainModel.Usuario;
 import br.com.servirjanuaria.amauri.excecao.exceptionErroLogin;
 import java.sql.SQLException;
 

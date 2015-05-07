@@ -9,12 +9,12 @@ package br.com.servirjanuaria.amauri.apresentacao;
  *
  * @author Amauri
  */
-public class GestaoAlunoT3JFrame extends javax.swing.JFrame {
+public class GestaoAlunoTela3JFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form CadastroAlunoT3JFrame
      */
-    public GestaoAlunoT3JFrame() {
+    public GestaoAlunoTela3JFrame() {
         initComponents();
     }
 
@@ -251,21 +251,23 @@ public class GestaoAlunoT3JFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GestaoAlunoT3JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestaoAlunoTela3JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GestaoAlunoT3JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestaoAlunoTela3JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GestaoAlunoT3JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestaoAlunoTela3JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GestaoAlunoT3JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestaoAlunoTela3JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GestaoAlunoT3JFrame().setVisible(true);
+                new GestaoAlunoTela3JFrame().setVisible(true);
             }
         });
     }

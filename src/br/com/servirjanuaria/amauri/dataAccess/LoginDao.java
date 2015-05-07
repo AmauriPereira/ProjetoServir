@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.servirjanuaria.amauri.dados;
+package br.com.servirjanuaria.amauri.dataAccess;
 
-import br.com.servirjanuaria.amauri.entidade.Usuario;
+import br.com.servirjanuaria.amauri.domainModel.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

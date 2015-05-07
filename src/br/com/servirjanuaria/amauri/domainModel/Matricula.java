@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.servirjanuaria.amauri.entidade;
+package br.com.servirjanuaria.amauri.domainModel;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -22,6 +22,7 @@ import javax.persistence.TemporalType;
  * @author Amauri
  */
 @Entity
+@Table(name = "matriculas")
 public class Matricula implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,23 +30,24 @@ public class Matricula implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Long ano;
+    @Column(name = "ano")
+    private String ano;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "data_matricula")
+    @Column(name = "data_matricula", nullable = false)
     private Date dataMatricula;
 
-    @Column(name = "serie")
+    @Column(name = "serie", length = 10, nullable = false)
     private String serie;
 
-    @Column(name = "turno")
-    private String turno;
+    @Column(name = "turno", nullable = false)
+    private int turno;
 
-    @Column(name = "egresso_rede")
+    @Column(name = "egresso_rede", nullable = false)
     private String egressoRede;
 
     @Column(name = "unidade_escolar")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     private UnidadeEscolar unidadeEscolar;
 
     public Long getId() {
@@ -56,11 +58,11 @@ public class Matricula implements Serializable {
         this.id = id;
     }
 
-    public Long getAno() {
+    public String getAno() {
         return ano;
     }
 
-    public void setAno(Long ano) {
+    public void setAno(String ano) {
         this.ano = ano;
     }
 
@@ -80,11 +82,11 @@ public class Matricula implements Serializable {
         this.serie = serie;
     }
 
-    public String getTurno() {
+    public int getTurno() {
         return turno;
     }
 
-    public void setTurno(String turno) {
+    public void setTurno(int turno) {
         this.turno = turno;
     }
 

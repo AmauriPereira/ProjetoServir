@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.servirjanuaria.amauri.entidade;
+package br.com.servirjanuaria.amauri.domainModel;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -11,27 +11,23 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author Amauri
  */
 @Entity
-public class UnidadeEscolar implements Serializable {
+@Table(name = "bairros")
+public class Bairro implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "nome")
+    @Column(name = "nome", length = 100, nullable = false)
     private String nome;
-
-    @Column(name = "telefone")
-    private String telefone;
-
-    @Column(name = "contato")
-    private String contato;
 
     public Long getId() {
         return id;
@@ -49,24 +45,6 @@ public class UnidadeEscolar implements Serializable {
         this.nome = nome;
     }
 
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getContato() {
-        return contato;
-    }
-
-    public void setContato(String contato) {
-        this.contato = contato;
-    }
-
-    
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -77,10 +55,10 @@ public class UnidadeEscolar implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UnidadeEscolar)) {
+        if (!(object instanceof Bairro)) {
             return false;
         }
-        UnidadeEscolar other = (UnidadeEscolar) object;
+        Bairro other = (Bairro) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -89,7 +67,7 @@ public class UnidadeEscolar implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.servirjanuaria.amauri.entidade.UnidadeEscolar[ id=" + id + " ]";
+        return "br.com.servirjanuaria.amauri.entidade.Bairro[ id=" + id + " ]";
     }
 
 }
