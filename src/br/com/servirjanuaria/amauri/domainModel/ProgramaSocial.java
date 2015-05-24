@@ -18,7 +18,7 @@ import javax.persistence.Table;
  * @author Amauri
  */
 @Entity
-@Table(name = "programasSociais")
+@Table(name = "programas_sociais")
 public class ProgramaSocial implements Serializable {
 
     private static final long serialVersionUID = 1L;

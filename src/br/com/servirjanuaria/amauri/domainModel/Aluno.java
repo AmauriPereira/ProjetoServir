@@ -134,7 +134,7 @@ public class Aluno extends Pessoa implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.servirjanuaria.amauri.entidade.Aluno[ id=" + id + " ]";
+        return cidadeNascimento;
     }
 
 }

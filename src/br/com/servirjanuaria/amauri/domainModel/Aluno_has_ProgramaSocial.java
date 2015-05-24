@@ -24,10 +24,10 @@ public class Aluno_has_ProgramaSocial implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne()
     private Aluno aluno;
 
-    @ManyToOne
+    @ManyToOne()
     private ProgramaSocial programaSocial;
 
     public Long getId() {

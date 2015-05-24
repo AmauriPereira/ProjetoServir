@@ -46,7 +46,6 @@ public class Matricula implements Serializable {
     @Column(name = "egresso_rede", nullable = false)
     private String egressoRede;
 
-    @Column(name = "unidade_escolar")
     @ManyToOne()
     private UnidadeEscolar unidadeEscolar;
 
