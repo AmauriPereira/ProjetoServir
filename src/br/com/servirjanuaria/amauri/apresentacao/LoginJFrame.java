@@ -5,7 +5,11 @@
  */
 package br.com.servirjanuaria.amauri.apresentacao;
 
+import br.com.servirjanuaria.amauri.dataAccess.EnderecoDAO;
+import br.com.servirjanuaria.amauri.dataAccess.Usuario1DAO;
 import br.com.servirjanuaria.amauri.domainModel.Usuario;
+import br.com.servirjanuaria.amauri.domainModel.repositorios.EnderecoRepositorio;
+import br.com.servirjanuaria.amauri.domainModel.repositorios.UsuarioRepositorio;
 import br.com.servirjanuaria.amauri.excecao.exceptionErroLogin;
 import br.com.servirjanuaria.amauri.negocio.LoginBO;
 import br.com.servirjanuaria.amauri.utillitarios.CriptografiaUtil;
@@ -17,6 +21,9 @@ import javax.swing.JOptionPane;
  * @author Amauri
  */
 public class LoginJFrame extends javax.swing.JFrame {
+
+    static EnderecoRepositorio enderecos = new EnderecoDAO();
+    static UsuarioRepositorio usuarios = new Usuario1DAO();
 
     /**
      * Creates new form LoginJFrame
@@ -62,13 +69,29 @@ public class LoginJFrame extends javax.swing.JFrame {
         LoginBO logarBO = new LoginBO();
 
         try {
-            usuarioLogado = logarBO.VerificaLogin(login, Senha);
-            JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            getInstancia().setVisible(true);
-            this.dispose();
+            Usuario user = new Usuario();
+            user.setUsuario(login);
+            user.setSenha(Senha);
+            //user = (Usuario) usuarios.buscar(user);
 
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro no script sql!", "Erro", JOptionPane.ERROR_MESSAGE);
+            //System.out.println(user.getDataCadastro());
+            //System.out.println(user.getUsuario() + " - " + user.getSenha());
+            for (Usuario u : usuarios.buscar(user)) {
+                System.out.println(u.getId() + " - " + u.getUsuario() + " - " + u.getDataCadastro());
+                //usuarioLogado = logarBO.VerificaLogin(login, Senha);
+                usuarioLogado = u;
+
+                JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                getInstancia().setVisible(true);
+                this.dispose();
+            }
+
+            //usuarioLogado = logarBO.VerificaLogin(login, Senha);
+            //JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            //getInstancia().setVisible(true);
+            //this.dispose();
+        //} catch (SQLException ex) {
+        //    JOptionPane.showMessageDialog(null, "Erro no script sql!", "Erro", JOptionPane.ERROR_MESSAGE);
         } catch (exceptionErroLogin ex) {
             JOptionPane.showMessageDialog(null, "Login ou senha inválidos", "Erro", JOptionPane.ERROR_MESSAGE);
         }

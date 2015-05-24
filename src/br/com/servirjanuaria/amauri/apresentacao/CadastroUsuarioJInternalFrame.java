@@ -5,7 +5,10 @@
  */
 package br.com.servirjanuaria.amauri.apresentacao;
 
+import br.com.servirjanuaria.amauri.dataAccess.Usuario1DAO;
+import br.com.servirjanuaria.amauri.dataAccess.UsuarioDAO;
 import br.com.servirjanuaria.amauri.domainModel.Usuario;
+import br.com.servirjanuaria.amauri.domainModel.repositorios.UsuarioRepositorio;
 import br.com.servirjanuaria.amauri.excecao.exceptionUsuarioExistente;
 import br.com.servirjanuaria.amauri.negocio.UsuarioBO;
 import br.com.servirjanuaria.amauri.utillitarios.CriptografiaUtil;
@@ -22,6 +25,8 @@ import javax.swing.JOptionPane;
  * @author Amauri
  */
 public class CadastroUsuarioJInternalFrame extends javax.swing.JInternalFrame {
+
+    static UsuarioRepositorio usuarios = new Usuario1DAO();
 
     /**
      * Creates new form CadastroUsuarioJInternalFrame
@@ -208,28 +213,26 @@ public class CadastroUsuarioJInternalFrame extends javax.swing.JInternalFrame {
                 Usuario usuario = new Usuario();
 
                 usuario.setNome(Nome);
-                usuario.setUsuario(NomeUsuario);
-                usuario.setSenha(Senha);
                 usuario.setNivelUsuario(NivelAcesso);
+                usuario.setUsuario(NomeUsuario);
                 usuario.setDataCadastro(DataCadastro);
+                usuario.setSenha(Senha);
 
-                UsuarioBO usuarioBO = new UsuarioBO();
                 try {
-                    usuarioBO.cadastrarUsuario(usuario);
+                    usuarios.salvar(usuario);
                     JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Sucesso ao Cadastrar", JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();
-                } catch (SQLException ex) {
-                    Logger.getLogger(CadastroUsuarioJInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (exceptionUsuarioExistente ex) {
-                    JOptionPane.showMessageDialog(null, "Este usuario ja está cadastrado!", "Erro ao cadastrar", JOptionPane.ERROR_MESSAGE);
-
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Falha no cadastro!", "Erro ao Cadastrar", JOptionPane.INFORMATION_MESSAGE);
+                    System.err.println(e);
                 }
+
             }
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       this.dispose();
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
 

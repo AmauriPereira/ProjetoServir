@@ -42,7 +42,7 @@ public class TelaPrincipalJFrame extends javax.swing.JFrame {
      */
     public TelaPrincipalJFrame(Usuario usuarioLogado) {
         initComponents();
-        this.usuarioLogado = usuarioLogado;
+        TelaPrincipalJFrame.usuarioLogado = usuarioLogado;
         configuraBarraStatus();
     }
 
@@ -76,6 +76,7 @@ public class TelaPrincipalJFrame extends javax.swing.JFrame {
         Dimension jInternalFrameSize = frame.getSize();
 
         frame.setLocation((desktopSize.width - jInternalFrameSize.width) / 2, (desktopSize.height - jInternalFrameSize.height) / 2);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -101,7 +102,7 @@ public class TelaPrincipalJFrame extends javax.swing.JFrame {
         BarraMenu = new javax.swing.JMenuBar();
         mnuMatricula = new javax.swing.JMenu();
         mnuCadastro = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        itmMnuCadastroUsuario = new javax.swing.JMenuItem();
         mnuPresenca = new javax.swing.JMenu();
         mnuPlanoEnsino = new javax.swing.JMenu();
         mnuRelatorios = new javax.swing.JMenu();
@@ -235,13 +236,13 @@ public class TelaPrincipalJFrame extends javax.swing.JFrame {
 
         mnuCadastro.setText("Cadastro");
 
-        jMenuItem1.setText("Usuário");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        itmMnuCadastroUsuario.setText("Usuário");
+        itmMnuCadastroUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                itmMnuCadastroUsuarioActionPerformed(evt);
             }
         });
-        mnuCadastro.add(jMenuItem1);
+        mnuCadastro.add(itmMnuCadastroUsuario);
 
         BarraMenu.add(mnuCadastro);
 
@@ -314,12 +315,12 @@ public class TelaPrincipalJFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formWindowOpened
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void itmMnuCadastroUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmMnuCadastroUsuarioActionPerformed
 // Menu - Cadastro > ItemMenu - Departamento 
         //Instancia uma tela de cadastro de Departamento se o usuario que esta logado for Um diretor;
         //caso não seja um diretor é exibida uma mensagem de ao usuario do sistema.
         //Obs: Somente diretor pode cadastrar departamento
-        if (usuarioLogado.getNivelUsuario() != 1) {
+        if (usuarioLogado.getNivelUsuario() == 1) {
 
             CadastroUsuarioJInternalFrame cadastroUsuarioJInternalFrame = null;
 
@@ -329,10 +330,11 @@ public class TelaPrincipalJFrame extends javax.swing.JFrame {
             cadastroUsuarioJInternalFrame.toFront();
             AreaPrincipalDesktopPane1.add(cadastroUsuarioJInternalFrame);
         } else {
+
             JOptionPane.showMessageDialog(null, "Você não possui previlégios para acessar \n"
                     + "a Tela de Cadastros de Departamentos!!!", "Cadastro de Departamentos", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_itmMnuCadastroUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -380,7 +382,7 @@ public class TelaPrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnPresenca;
     private javax.swing.JButton btnRelatorios;
     private javax.swing.JButton btnRenovacao;
-    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem itmMnuCadastroUsuario;
     private javax.swing.JLabel lblData;
     private javax.swing.JLabel lblHora;
     private javax.swing.JLabel lblNivelAcessoUsuario;
