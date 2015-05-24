@@ -7,11 +7,21 @@ package br.com.servirjanuaria.amauri.dataAccess;
 
 import br.com.servirjanuaria.amauri.domainModel.Deficiencia;
 import br.com.servirjanuaria.amauri.domainModel.repositorios.DeficienciaRepositorio;
+import java.util.List;
 
 /**
  *
  * @author Amauri
  */
 public class DeficienciaDAO extends DaoGenerico<Deficiencia> implements DeficienciaRepositorio{
+
+    public DeficienciaDAO() {
+        super(Deficiencia.class);
+    }
+
+    @Override
+    public List<Deficiencia> buscar(Deficiencia filtro) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
