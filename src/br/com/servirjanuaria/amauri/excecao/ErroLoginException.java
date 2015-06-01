@@ -9,9 +9,14 @@ package br.com.servirjanuaria.amauri.excecao;
  *
  * @author Amauri
  */
-public class exceptionUsuarioExistente extends RuntimeException{
- 
-    public exceptionUsuarioExistente(){
-        super();
+public class ErroLoginException extends RuntimeException {
+
+    public ErroLoginException() {
+
     }
+
+    public ErroLoginException(Exception e) {
+
+    }
+
 }
