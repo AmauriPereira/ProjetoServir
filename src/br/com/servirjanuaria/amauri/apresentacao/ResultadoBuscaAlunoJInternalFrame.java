@@ -5,6 +5,8 @@
  */
 package br.com.servirjanuaria.amauri.apresentacao;
 
+import br.com.servirjanuaria.amauri.domainModel.Usuario;
+
 /**
  *
  * @author Amauri
@@ -18,6 +20,7 @@ public class ResultadoBuscaAlunoJInternalFrame extends javax.swing.JInternalFram
         initComponents();
     }
 
+    private static Usuario usuarioLogado;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -373,9 +376,18 @@ public class ResultadoBuscaAlunoJInternalFrame extends javax.swing.JInternalFram
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
     GestaoAlunoTela1JFrame cadastroAlunoT1JFrame = new GestaoAlunoTela1JFrame();
+    TelaPrincipalJFrame telaPrincipalJFrame = new TelaPrincipalJFrame(usuarioLogado);
     
      cadastroAlunoT1JFrame.setVisible(true);
-    
+     
+     ResultadoBuscaAlunoJInternalFrame cadastroAlunoJInternalFrame = null;
+
+        cadastroAlunoJInternalFrame = new ResultadoBuscaAlunoJInternalFrame();
+        cadastroAlunoJInternalFrame.setVisible(true);
+        telaPrincipalJFrame.centralizaForm(cadastroAlunoJInternalFrame);
+        cadastroAlunoJInternalFrame.toFront();
+        //telaPrincipalJFrame.AreaPrincipalDesktopPane1.add(cadastroAlunoJInternalFrame);
+    telaPrincipalJFrame.instaciarJanelas(cadastroAlunoJInternalFrame);
     }//GEN-LAST:event_jButton8ActionPerformed
 
 

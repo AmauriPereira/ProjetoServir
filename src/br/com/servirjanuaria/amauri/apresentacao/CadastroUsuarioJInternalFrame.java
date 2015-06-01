@@ -9,7 +9,7 @@ import br.com.servirjanuaria.amauri.dataAccess.Usuario1DAO;
 import br.com.servirjanuaria.amauri.dataAccess.UsuarioDAO;
 import br.com.servirjanuaria.amauri.domainModel.Usuario;
 import br.com.servirjanuaria.amauri.domainModel.repositorios.UsuarioRepositorio;
-import br.com.servirjanuaria.amauri.excecao.exceptionUsuarioExistente;
+import br.com.servirjanuaria.amauri.excecao.UsuarioExistenteException;
 import br.com.servirjanuaria.amauri.negocio.UsuarioBO;
 import br.com.servirjanuaria.amauri.utillitarios.CriptografiaUtil;
 import java.util.Date;

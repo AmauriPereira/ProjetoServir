@@ -10,10 +10,8 @@ import br.com.servirjanuaria.amauri.dataAccess.Usuario1DAO;
 import br.com.servirjanuaria.amauri.domainModel.Usuario;
 import br.com.servirjanuaria.amauri.domainModel.repositorios.EnderecoRepositorio;
 import br.com.servirjanuaria.amauri.domainModel.repositorios.UsuarioRepositorio;
-import br.com.servirjanuaria.amauri.excecao.exceptionErroLogin;
-import br.com.servirjanuaria.amauri.negocio.LoginBO;
+import br.com.servirjanuaria.amauri.excecao.ErroLoginException;
 import br.com.servirjanuaria.amauri.utillitarios.CriptografiaUtil;
-import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,14 +20,14 @@ import javax.swing.JOptionPane;
  */
 public class LoginJFrame extends javax.swing.JFrame {
 
-    static EnderecoRepositorio enderecos = new EnderecoDAO();
+   // static EnderecoRepositorio enderecos = new EnderecoDAO();
     static UsuarioRepositorio usuarios = new Usuario1DAO();
 
     /**
      * Creates new form LoginJFrame
      */
     private static TelaPrincipalJFrame telaPrincipalJFrame;
-    private static Usuario usuarioLogado;
+    private static Usuario usuarioLogado = null;
 
     public static TelaPrincipalJFrame getInstancia() {
         if (telaPrincipalJFrame == null) {
@@ -65,17 +63,11 @@ public class LoginJFrame extends javax.swing.JFrame {
         CriptografiaUtil criptografiaSenha = new CriptografiaUtil();
         Senha = criptografiaSenha.criptografiaSenha(Senha);
 
-        //instanciando a variavel logarBO.
-        LoginBO logarBO = new LoginBO();
-
         try {
             Usuario user = new Usuario();
             user.setUsuario(login);
             user.setSenha(Senha);
-            //user = (Usuario) usuarios.buscar(user);
 
-            //System.out.println(user.getDataCadastro());
-            //System.out.println(user.getUsuario() + " - " + user.getSenha());
             for (Usuario u : usuarios.buscar(user)) {
                 System.out.println(u.getId() + " - " + u.getUsuario() + " - " + u.getDataCadastro());
                 //usuarioLogado = logarBO.VerificaLogin(login, Senha);
@@ -86,13 +78,7 @@ public class LoginJFrame extends javax.swing.JFrame {
                 this.dispose();
             }
 
-            //usuarioLogado = logarBO.VerificaLogin(login, Senha);
-            //JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            //getInstancia().setVisible(true);
-            //this.dispose();
-        //} catch (SQLException ex) {
-        //    JOptionPane.showMessageDialog(null, "Erro no script sql!", "Erro", JOptionPane.ERROR_MESSAGE);
-        } catch (exceptionErroLogin ex) {
+        } catch (ErroLoginException e) {
             JOptionPane.showMessageDialog(null, "Login ou senha inválidos", "Erro", JOptionPane.ERROR_MESSAGE);
         }
 

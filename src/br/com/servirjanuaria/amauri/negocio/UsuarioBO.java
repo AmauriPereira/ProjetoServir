@@ -7,7 +7,7 @@ package br.com.servirjanuaria.amauri.negocio;
 
 import br.com.servirjanuaria.amauri.dataAccess.UsuarioDAO;
 import br.com.servirjanuaria.amauri.domainModel.Usuario;
-import br.com.servirjanuaria.amauri.excecao.exceptionUsuarioExistente;
+import br.com.servirjanuaria.amauri.excecao.UsuarioExistenteException;
 import java.sql.SQLException;
 
 /**
@@ -25,7 +25,7 @@ public class UsuarioBO {
             usuarioDAO.cadastraUsuario(usuario);
 
         } else {
-            throw new exceptionUsuarioExistente();
+            throw new UsuarioExistenteException();
 
         }
     }

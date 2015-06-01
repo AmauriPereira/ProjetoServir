@@ -7,7 +7,7 @@ package br.com.servirjanuaria.amauri.negocio;
 
 import br.com.servirjanuaria.amauri.dataAccess.LoginDao;
 import br.com.servirjanuaria.amauri.domainModel.Usuario;
-import br.com.servirjanuaria.amauri.excecao.exceptionErroLogin;
+import br.com.servirjanuaria.amauri.excecao.ErroLoginException;
 import java.sql.SQLException;
 
 /**
@@ -23,7 +23,7 @@ public class LoginBO {
         usuarioLogado = loginDao.selectLogin(Usuario,Senha);
 
         if (usuarioLogado == null) {
-            throw new exceptionErroLogin();
+            throw new ErroLoginException();
         } else {
             return usuarioLogado;
         }

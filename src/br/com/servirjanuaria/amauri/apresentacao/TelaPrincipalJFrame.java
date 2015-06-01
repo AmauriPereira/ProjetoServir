@@ -33,7 +33,8 @@ public class TelaPrincipalJFrame extends javax.swing.JFrame {
 
     }
 
-    private static Usuario usuarioLogado;
+    private static Usuario usuarioLogado = null;
+    ResultadoBuscaAlunoJInternalFrame resultadoBuscaAlunoJInternalFrame = null;
 
     /**
      * Creates new form TelaPrincipalJFrame
@@ -70,13 +71,20 @@ public class TelaPrincipalJFrame extends javax.swing.JFrame {
 
     //Metodo configura a posição do formularios internos em relação ao painel(CENTRO)
     //ESSE METODO É CHAMADO SEMPRE QUE O USUARIO ABRE ALGUMA TELA DE FORMULARIO(Cadastro Gerente, Diretor e outras);
-    private void centralizaForm(JInternalFrame frame) {
+    public void centralizaForm(JInternalFrame frame) {
 
         Dimension desktopSize = AreaPrincipalDesktopPane1.getSize();
         Dimension jInternalFrameSize = frame.getSize();
 
         frame.setLocation((desktopSize.width - jInternalFrameSize.width) / 2, (desktopSize.height - jInternalFrameSize.height) / 2);
 
+    }
+    
+    public  void instaciarJanelas(JInternalFrame frame) {
+        centralizaForm(frame);
+        frame.toFront();
+        AreaPrincipalDesktopPane1.add(frame);
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -291,13 +299,13 @@ public class TelaPrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRenovacaoActionPerformed
 
     private void btnMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMatriculaActionPerformed
-        ResultadoBuscaAlunoJInternalFrame cadastroAlunoJInternalFrame = null;
+       // ResultadoBuscaAlunoJInternalFrame resultadoBuscaAlunoJInternalFrame = null;
 
-        cadastroAlunoJInternalFrame = new ResultadoBuscaAlunoJInternalFrame();
-        cadastroAlunoJInternalFrame.setVisible(true);
-        centralizaForm(cadastroAlunoJInternalFrame);
-        cadastroAlunoJInternalFrame.toFront();
-        AreaPrincipalDesktopPane1.add(cadastroAlunoJInternalFrame);
+        resultadoBuscaAlunoJInternalFrame = new ResultadoBuscaAlunoJInternalFrame();
+        resultadoBuscaAlunoJInternalFrame.setVisible(true);
+        centralizaForm(resultadoBuscaAlunoJInternalFrame);
+        resultadoBuscaAlunoJInternalFrame.toFront();
+        AreaPrincipalDesktopPane1.add(resultadoBuscaAlunoJInternalFrame);
     }//GEN-LAST:event_btnMatriculaActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened

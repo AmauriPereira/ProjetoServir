@@ -5,13 +5,14 @@
  */
 package br.com.servirjanuaria.amauri.dataAccess;
 
+import br.com.servirjanuaria.amauri.domainModel.Usuario;
 import br.com.servirjanuaria.amauri.domainModel.repositorios.Repositorio;
+import br.com.servirjanuaria.amauri.excecao.UsuarioExistenteException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -38,41 +39,46 @@ public abstract class DaoGenerico<T> implements Repositorio<T> {
 
     @Override
     public boolean salvar(T obj) {
-        EntityTransaction t = manager.getTransaction();
         try {
-            t.begin();
             manager.persist(obj);
-            t.commit();
+            manager.flush();
             return true;
         } catch (Exception e) {
-            System.out.println(e);
-            t.rollback();
             return false;
         }
 
     }
 
-    public List<T> buscar() {
-        if (where.length() > 0) {
-            jpql = jpql + " where " + where;
+    public List buscar() {
+        try {
+            if (where.length() > 0) {
+                jpql = jpql + " where " + where;
+            }
+
+            if (orderby.length() > 0) {
+                jpql = jpql + " order by " + orderby;
+            }
+
+            Query consulta = manager.createQuery(jpql);
+
+            for (String parametro : parametros.keySet()) {
+                consulta.setParameter(parametro, parametros.get(parametro));
+            }
+
+            return consulta.getResultList();
+
+        } catch (Exception e) {
+            throw new RuntimeException();
+
+        } finally {
+            where = "";
+            jpql = "";
+            orderby = "";
+            parametros = new HashMap<>();
         }
 
-        if (orderby.length() > 0) {
-            jpql = jpql + " order by " + orderby;
-        }
-
-        Query consulta = manager.createQuery(jpql);
-
-        for (String parametro : parametros.keySet()) {
-            consulta.setParameter(parametro, parametros.get(parametro));
-        }
-
-        where = "";
-
-        return consulta.getResultList();
     }
-    
-    
+
     public List<T> buscarUmObjeto() {
         if (where.length() > 0) {
             jpql = jpql + " where " + where;
@@ -92,6 +98,7 @@ public abstract class DaoGenerico<T> implements Repositorio<T> {
 
         return consulta.getResultList();
     }
+
     /**
      *
      * @param campo
@@ -99,7 +106,9 @@ public abstract class DaoGenerico<T> implements Repositorio<T> {
      * @return
      */
     public DaoGenerico<T> IgualA(String campo, Object valor) {
-
+        if (campo == null) {
+            return this;
+        }
         if (where.length() > 0) {
             where += " and ";
         }
@@ -111,8 +120,12 @@ public abstract class DaoGenerico<T> implements Repositorio<T> {
 
         return this;
     }
-    
+
     public DaoGenerico<T> Like(String campo, String valor) {
+
+        if (valor == null) {
+            return this;
+        }
 
         if (where.length() > 0) {
             where += " and ";
@@ -124,7 +137,6 @@ public abstract class DaoGenerico<T> implements Repositorio<T> {
 
         return this;
     }
-
 
     @Override
     public T abrir(Long id) {

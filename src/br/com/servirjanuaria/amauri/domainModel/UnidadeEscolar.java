@@ -18,7 +18,7 @@ import javax.persistence.Table;
  * @author Amauri
  */
 @Entity
-@Table (name = "unidades_escolares")
+@Table(name = "unidades_escolares")
 public class UnidadeEscolar implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,10 +26,10 @@ public class UnidadeEscolar implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "nome", length = 255,nullable = false)
+    @Column(name = "nome", length = 255, nullable = false)
     private String nome;
 
-    @Column(name = "telefone",length = 10, nullable = false)
+    @Column(name = "telefone", length = 10, nullable = false)
     private String telefone;
 
     @Column(name = "contato", length = 255, nullable = false)
@@ -67,8 +67,6 @@ public class UnidadeEscolar implements Serializable {
         this.contato = contato;
     }
 
-    
-    
     @Override
     public int hashCode() {
         int hash = 0;
