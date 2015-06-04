@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1" 
-             xmlns="http://xmlns.jcp.org/xml/ns/persistence" 
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-    
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="SistemaServirPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>br.com.servirjanuaria.amauri.domainModel.Usuario</class>
     <class>br.com.servirjanuaria.amauri.domainModel.Aluno</class>
     <class>br.com.servirjanuaria.amauri.domainModel.Aluno_has_ProgramaSocial</class>
     <class>br.com.servirjanuaria.amauri.domainModel.Bairro</class>
@@ -20,7 +17,6 @@
     <class>br.com.servirjanuaria.amauri.domainModel.Pessoa</class>
     <class>br.com.servirjanuaria.amauri.domainModel.ProgramaSocial</class>
     <class>br.com.servirjanuaria.amauri.domainModel.UnidadeEscolar</class>
-    <class>br.com.servirjanuaria.amauri.domainModel.Usuario</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/servir?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.password" value=""/>

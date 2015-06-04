@@ -5,15 +5,11 @@
  */
 package br.com.servirjanuaria.amauri.apresentacao;
 
-import br.com.servirjanuaria.amauri.dataAccess.Usuario1DAO;
 import br.com.servirjanuaria.amauri.dataAccess.UsuarioDAO;
 import br.com.servirjanuaria.amauri.domainModel.Usuario;
 import br.com.servirjanuaria.amauri.domainModel.repositorios.UsuarioRepositorio;
-import br.com.servirjanuaria.amauri.excecao.UsuarioExistenteException;
-import br.com.servirjanuaria.amauri.negocio.UsuarioBO;
 import br.com.servirjanuaria.amauri.utillitarios.CriptografiaUtil;
 import java.util.Date;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
@@ -26,7 +22,7 @@ import javax.swing.JOptionPane;
  */
 public class CadastroUsuarioJInternalFrame extends javax.swing.JInternalFrame {
 
-    static UsuarioRepositorio usuarios = new Usuario1DAO();
+    static UsuarioRepositorio usuarios = new UsuarioDAO();
 
     /**
      * Creates new form CadastroUsuarioJInternalFrame
