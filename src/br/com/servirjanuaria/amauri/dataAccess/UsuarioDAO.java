@@ -6,98 +6,35 @@
 package br.com.servirjanuaria.amauri.dataAccess;
 
 import br.com.servirjanuaria.amauri.domainModel.Usuario;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import br.com.servirjanuaria.amauri.domainModel.repositorios.UsuarioRepositorio;
+import br.com.servirjanuaria.amauri.excecao.ErroLoginException;
+import java.util.List;
 
 /**
  *
  * @author Amauri
  */
-public class UsuarioDAO {
-//sql: busca usuario de acordo com o usuario e senha passado por paramentro
+public class UsuarioDAO extends DaoGenerico<Usuario> implements UsuarioRepositorio {
 
-    private static final String SQL_SELECT_USUARIO = "SELECT * FROM LOGIN WHERE USUARIO = ?";
-    private static final String SQL_INSERT_USUARIO = "INSERT INTO LOGIN (Nome, Usuario, Senha, Nivel, DataCadastro)"
-            + "values(?,?,?,?,?)";
-
-    //Verifica se o usuario passado por parâmetro está cadastrado no banco.
-    public Usuario SelecionaUsuario(Usuario usuario) throws SQLException {
-        Connection conexao = null;
-        PreparedStatement comando = null;
-        ResultSet resultado = null;
-        Usuario usuarioSelecionado = null;
-
-        try {
-
-            conexao = BancoDadosUtil.getConnection();
-            comando = conexao.prepareStatement(SQL_SELECT_USUARIO);
-            comando.setString(1, usuario.getUsuario());
-            resultado = comando.executeQuery();
-
-            if (resultado.next()) {
-                usuarioSelecionado = new Usuario();
-                //usuarioSelecionado.setIdlogin(resultado.getInt("IDLogin"));
-                usuarioSelecionado.setNome(resultado.getString("Nome"));
-                usuarioSelecionado.setUsuario(resultado.getString("Usuario"));
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-
-        } finally {
-            if (comando != null && !comando.isClosed()) {
-                comando.close();
-            }
-            if (conexao != null && !conexao.isClosed()) {
-                conexao.close();
-            }
-        }
-        return usuarioSelecionado;
+    public UsuarioDAO() {
+        super(Usuario.class);
     }
 
-    //Cadastra um novo usuario no banco de dados.
-    public void cadastraUsuario(Usuario usuario) throws SQLException {
+    @Override
+    public Usuario AbrirPorNomeDeUsuario(String nome) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
-        Connection conexao = null;
-        PreparedStatement comando = null;
-
+    @Override
+    public List<Usuario> buscar(Usuario filtro) {
         try {
-
-            conexao = BancoDadosUtil.getConnection();
-            comando = conexao.prepareStatement(SQL_INSERT_USUARIO);
-
-            comando.setString(1, usuario.getNome());
-            comando.setString(2, usuario.getUsuario());
-            comando.setString(3, usuario.getSenha());
-            comando.setInt(4, usuario.getNivelUsuario());
-
-            java.util.Date dataUtil = new java.util.Date();
-            dataUtil = usuario.getDataCadastro();
-            java.sql.Date dataSql = new java.sql.Date(dataUtil.getTime());
-
-            comando.setDate(5, dataSql);
-
-            /*comando.setString(1, "Administrador");
-             comando.setString(2, "admin");
-             String Senha = "admin";
-             comando.setString(3, Senha);
-             comando.setInt(4, 1);
-             System.out.println("Aki now");*/
-            comando.execute();
-
+            return Like("usuario", filtro.getUsuario())
+                    .Like("senha", filtro.getSenha())
+                    .buscar();
         } catch (Exception e) {
-            throw new RuntimeException(e);
-
-        } finally {
-            if (comando != null && !comando.isClosed()) {
-                comando.close();
-            }
-            if (conexao != null && !conexao.isClosed()) {
-                conexao.close();
-            }
+            throw new ErroLoginException(e);
         }
+
     }
 
 }

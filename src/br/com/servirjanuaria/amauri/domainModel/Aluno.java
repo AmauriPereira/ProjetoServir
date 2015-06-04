@@ -19,7 +19,7 @@ import javax.persistence.Table;
  * @author Amauri
  */
 @Entity
-@Table(name = "alunos" )
+@Table(name = "alunos")
 public class Aluno extends Pessoa implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,7 +39,7 @@ public class Aluno extends Pessoa implements Serializable {
     @Column(name = "nacionalidade", nullable = false)
     private String nacionalidade;
 
-    @Column(name = "fotos", nullable = false)
+    @Column(name = "fotos", nullable = true)
     private String foto;
 
     @ManyToOne

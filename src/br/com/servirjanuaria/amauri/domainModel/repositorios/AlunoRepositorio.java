@@ -11,6 +11,6 @@ import br.com.servirjanuaria.amauri.domainModel.Aluno;
  *
  * @author Amauri
  */
-public interface AlunoRepositorio extends Repositorio<Aluno>{
-    
+public interface AlunoRepositorio extends Repositorio<Aluno> {
+
 }

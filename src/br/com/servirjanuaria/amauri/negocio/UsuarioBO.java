@@ -5,7 +5,7 @@
  */
 package br.com.servirjanuaria.amauri.negocio;
 
-import br.com.servirjanuaria.amauri.dataAccess.UsuarioDAO;
+import br.com.servirjanuaria.amauri.dataAccess.UsuarioDAOooo;
 import br.com.servirjanuaria.amauri.domainModel.Usuario;
 import br.com.servirjanuaria.amauri.excecao.UsuarioExistenteException;
 import java.sql.SQLException;
@@ -17,7 +17,7 @@ import java.sql.SQLException;
 public class UsuarioBO {
 
     public void cadastrarUsuario(Usuario usuario) throws SQLException {
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        UsuarioDAOooo usuarioDAO = new UsuarioDAOooo();
 
         boolean validaUsuario = usuarioExistente(usuario);
 
@@ -31,7 +31,7 @@ public class UsuarioBO {
     }
 
     private boolean usuarioExistente(Usuario usuario) throws SQLException {
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        UsuarioDAOooo usuarioDAO = new UsuarioDAOooo();
         Usuario usuarioExiste = usuarioDAO.SelecionaUsuario(usuario);
 
         if (usuarioExiste == null) {

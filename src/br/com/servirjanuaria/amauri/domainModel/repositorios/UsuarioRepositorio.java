@@ -11,6 +11,7 @@ import br.com.servirjanuaria.amauri.domainModel.Usuario;
  *
  * @author Amauri
  */
+
 public interface UsuarioRepositorio extends Repositorio<Usuario> {
 
     public Usuario AbrirPorNomeDeUsuario(String nome);

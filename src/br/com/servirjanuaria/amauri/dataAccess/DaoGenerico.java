@@ -7,12 +7,13 @@ package br.com.servirjanuaria.amauri.dataAccess;
 
 import br.com.servirjanuaria.amauri.domainModel.Usuario;
 import br.com.servirjanuaria.amauri.domainModel.repositorios.Repositorio;
-import br.com.servirjanuaria.amauri.excecao.UsuarioExistenteException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -34,23 +35,28 @@ public abstract class DaoGenerico<T> implements Repositorio<T> {
     public DaoGenerico(Class t) {
         this.manager = fabrica.createEntityManager();
         this.tipo = t;
-        jpql += t.getSimpleName() + " c";
     }
 
     @Override
     public boolean salvar(T obj) {
+        EntityTransaction transaction = manager.getTransaction();
         try {
+            transaction.begin();
             manager.persist(obj);
-            manager.flush();
+            transaction.commit();
+
             return true;
         } catch (Exception e) {
-            return false;
+            System.out.println("erro ao salvar: " + e);
+            throw new RuntimeException();
         }
 
     }
 
-    public List buscar() {
+    public List<T> buscar() {
         try {
+            jpql += tipo.getSimpleName() + " c ";
+
             if (where.length() > 0) {
                 jpql = jpql + " where " + where;
             }
@@ -60,43 +66,24 @@ public abstract class DaoGenerico<T> implements Repositorio<T> {
             }
 
             Query consulta = manager.createQuery(jpql);
-
             for (String parametro : parametros.keySet()) {
                 consulta.setParameter(parametro, parametros.get(parametro));
             }
-
+            
             return consulta.getResultList();
 
         } catch (Exception e) {
-            throw new RuntimeException();
-
+            System.out.println("erro ao buscar: " + e);
+            throw new RuntimeException(e);
         } finally {
+
             where = "";
-            jpql = "";
+            jpql = "select c from ";
             orderby = "";
             parametros = new HashMap<>();
+
         }
 
-    }
-
-    public List<T> buscarUmObjeto() {
-        if (where.length() > 0) {
-            jpql = jpql + " where " + where;
-        }
-
-        if (orderby.length() > 0) {
-            jpql = jpql + " order by " + orderby;
-        }
-
-        Query consulta = manager.createQuery(jpql);
-
-        for (String parametro : parametros.keySet()) {
-            consulta.setParameter(parametro, parametros.get(parametro));
-        }
-
-        where = "";
-
-        return consulta.getResultList();
     }
 
     /**

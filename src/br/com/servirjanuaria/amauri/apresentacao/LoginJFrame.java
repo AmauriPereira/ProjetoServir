@@ -5,10 +5,8 @@
  */
 package br.com.servirjanuaria.amauri.apresentacao;
 
-import br.com.servirjanuaria.amauri.dataAccess.EnderecoDAO;
-import br.com.servirjanuaria.amauri.dataAccess.Usuario1DAO;
+import br.com.servirjanuaria.amauri.dataAccess.UsuarioDAO;
 import br.com.servirjanuaria.amauri.domainModel.Usuario;
-import br.com.servirjanuaria.amauri.domainModel.repositorios.EnderecoRepositorio;
 import br.com.servirjanuaria.amauri.domainModel.repositorios.UsuarioRepositorio;
 import br.com.servirjanuaria.amauri.excecao.ErroLoginException;
 import br.com.servirjanuaria.amauri.utillitarios.CriptografiaUtil;
@@ -20,8 +18,8 @@ import javax.swing.JOptionPane;
  */
 public class LoginJFrame extends javax.swing.JFrame {
 
-   // static EnderecoRepositorio enderecos = new EnderecoDAO();
-    static UsuarioRepositorio usuarios = new Usuario1DAO();
+    // static EnderecoRepositorio enderecos = new EnderecoDAO();
+    static UsuarioRepositorio usuarios = new UsuarioDAO();
 
     /**
      * Creates new form LoginJFrame
@@ -55,31 +53,35 @@ public class LoginJFrame extends javax.swing.JFrame {
     public void Logar() {
 
         //cria duas variaveis para receber os dados de login do usuario.
-        String login = txtUsuario.getText();
-        String Senha = txtSenha.getText();
+        String usuario = txtUsuario.getText();
+        String senha = txtSenha.getText();
 
         /*Verifica se a senha digitada estar cadastrada no banco de forma 
          criptografada hash sha-256*/
         CriptografiaUtil criptografiaSenha = new CriptografiaUtil();
-        Senha = criptografiaSenha.criptografiaSenha(Senha);
+        senha = criptografiaSenha.criptografiaSenha(senha);
 
         try {
-            Usuario user = new Usuario();
-            user.setUsuario(login);
-            user.setSenha(Senha);
+            Usuario usuarioBuscado = new Usuario();
+            usuarioBuscado.setUsuario(usuario);
+            usuarioBuscado.setSenha(senha);
 
-            for (Usuario u : usuarios.buscar(user)) {
-                System.out.println(u.getId() + " - " + u.getUsuario() + " - " + u.getDataCadastro());
-                //usuarioLogado = logarBO.VerificaLogin(login, Senha);
-                usuarioLogado = u;
+            for (Usuario user : usuarios.buscar(usuarioBuscado)) {
 
-                JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                System.out.println(user.getId() + " - " + user.getUsuario() + " - " + user.getDataCadastro());
+
+                usuarioLogado = user;
+
                 getInstancia().setVisible(true);
                 this.dispose();
+
             }
 
         } catch (ErroLoginException e) {
+            System.err.println("erro o logar: " + e);
             JOptionPane.showMessageDialog(null, "Login ou senha inválidos", "Erro", JOptionPane.ERROR_MESSAGE);
+        } catch (RuntimeException e) {
+            System.err.println("erro o logar: " + e);
         }
 
     }

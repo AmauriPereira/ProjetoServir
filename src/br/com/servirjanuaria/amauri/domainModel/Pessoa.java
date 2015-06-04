@@ -39,6 +39,12 @@ public class Pessoa implements Serializable {
     @Column(name = "sexo", length = 1, nullable = false)
     private String sexo;
 
+    @Column(name = "rg", length = 11, nullable = false)
+    private String rg;
+
+    @Column(name = "cpf", length = 11, nullable = false)
+    private String cpf;
+
     @Temporal(TemporalType.DATE)
     @Column(name = "data_nascimento", nullable = false)
     private Date dataNascimento;
@@ -67,7 +73,33 @@ public class Pessoa implements Serializable {
     }
 
     public void setSexo(String sexo) {
-        this.sexo = sexo;
+        if ("Masculino".equals(sexo)) {
+            this.sexo = "M";
+        } else {
+            this.sexo = "F";
+        }
+    }
+
+    public String getRg() {
+        return rg;
+    }
+
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
+    public String getCpf() {
+        if (cpf.length() < 11) {
+            return "";
+        }
+        return cpf.substring(0, 3).concat(".")
+                + cpf.substring(3, 6).concat(".")
+                + cpf.substring(6, 9).concat("-")
+                + cpf.substring(9, 11);
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf.replace(".", "").replace("-", "");
     }
 
     public Date getDataNascimento() {
