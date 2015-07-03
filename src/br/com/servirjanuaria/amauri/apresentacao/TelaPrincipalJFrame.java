@@ -34,7 +34,6 @@ public class TelaPrincipalJFrame extends javax.swing.JFrame {
     }
 
     private static Usuario usuarioLogado = null;
-    ResultadoBuscaAlunoJInternalFrame resultadoBuscaAlunoJInternalFrame = null;
 
     /**
      * Creates new form TelaPrincipalJFrame
@@ -79,12 +78,12 @@ public class TelaPrincipalJFrame extends javax.swing.JFrame {
         frame.setLocation((desktopSize.width - jInternalFrameSize.width) / 2, (desktopSize.height - jInternalFrameSize.height) / 2);
 
     }
-    
-    public  void instaciarJanelas(JInternalFrame frame) {
+
+    public void instaciarJanelas(JInternalFrame frame) {
         centralizaForm(frame);
         frame.toFront();
         AreaPrincipalDesktopPane1.add(frame);
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -109,6 +108,8 @@ public class TelaPrincipalJFrame extends javax.swing.JFrame {
         btnMatricula = new javax.swing.JButton();
         BarraMenu = new javax.swing.JMenuBar();
         mnuMatricula = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        Renovacao = new javax.swing.JMenuItem();
         mnuCadastro = new javax.swing.JMenu();
         itmMnuCadastroUsuario = new javax.swing.JMenuItem();
         mnuPresenca = new javax.swing.JMenu();
@@ -240,6 +241,23 @@ public class TelaPrincipalJFrame extends javax.swing.JFrame {
         );
 
         mnuMatricula.setText("Matrícula");
+
+        jMenuItem1.setText("Nova Matricula");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        mnuMatricula.add(jMenuItem1);
+
+        Renovacao.setText("Renovação");
+        Renovacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RenovacaoActionPerformed(evt);
+            }
+        });
+        mnuMatricula.add(Renovacao);
+
         BarraMenu.add(mnuMatricula);
 
         mnuCadastro.setText("Cadastro");
@@ -299,9 +317,7 @@ public class TelaPrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRenovacaoActionPerformed
 
     private void btnMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMatriculaActionPerformed
-       // ResultadoBuscaAlunoJInternalFrame resultadoBuscaAlunoJInternalFrame = null;
-
-        resultadoBuscaAlunoJInternalFrame = new ResultadoBuscaAlunoJInternalFrame();
+        ResultadoBuscaAlunoJInternalFrame resultadoBuscaAlunoJInternalFrame = new ResultadoBuscaAlunoJInternalFrame(this.AreaPrincipalDesktopPane1);
         resultadoBuscaAlunoJInternalFrame.setVisible(true);
         centralizaForm(resultadoBuscaAlunoJInternalFrame);
         resultadoBuscaAlunoJInternalFrame.toFront();
@@ -344,6 +360,14 @@ public class TelaPrincipalJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_itmMnuCadastroUsuarioActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        //chama tela de cadastro 1
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void RenovacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RenovacaoActionPerformed
+       
+    }//GEN-LAST:event_RenovacaoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -385,12 +409,14 @@ public class TelaPrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JMenuBar BarraMenu;
     private javax.swing.JPanel DadosUsuarioLogado;
     private javax.swing.JPanel MenuAcessoRapido;
+    private javax.swing.JMenuItem Renovacao;
     private javax.swing.JButton btnBackup;
     private javax.swing.JButton btnMatricula;
     private javax.swing.JButton btnPresenca;
     private javax.swing.JButton btnRelatorios;
     private javax.swing.JButton btnRenovacao;
     private javax.swing.JMenuItem itmMnuCadastroUsuario;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JLabel lblData;
     private javax.swing.JLabel lblHora;
     private javax.swing.JLabel lblNivelAcessoUsuario;

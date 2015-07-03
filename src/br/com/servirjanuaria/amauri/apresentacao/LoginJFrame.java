@@ -79,8 +79,9 @@ public class LoginJFrame extends javax.swing.JFrame {
 
         } catch (ErroLoginException e) {
             System.err.println("erro o logar: " + e);
-            JOptionPane.showMessageDialog(null, "Login ou senha inválidos", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e+": Login ou senha inválidos", "Erro", JOptionPane.ERROR_MESSAGE);
         } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(null, e+": erro ao logar", "Login de Usuario", JOptionPane.ERROR_MESSAGE);
             System.err.println("erro o logar: " + e);
         }
 
