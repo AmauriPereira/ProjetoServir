@@ -78,15 +78,28 @@ public class Matricula implements Serializable {
     }
 
     public void setSerie(String serie) {
+
         this.serie = serie;
     }
 
     public int getTurno() {
+
         return turno;
     }
 
-    public void setTurno(int turno) {
-        this.turno = turno;
+    public void setTurno(String turno) {
+        if (null != turno) switch (turno) {
+            case "Matutino":
+                this.turno = 1;
+                break;
+            case "Vespertino":
+                this.turno = 2;
+                break;
+            case "Noturno":
+                this.turno = 3;
+                break;
+        }
+
     }
 
     public String getEgressoRede() {

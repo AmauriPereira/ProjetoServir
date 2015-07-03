@@ -47,7 +47,7 @@ public class Endereco implements Serializable {
     @Column(name = "cidade", length = 100, nullable = false)
     private String cidade;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Bairro bairro;
 
     public Long getId() {
@@ -112,6 +112,10 @@ public class Endereco implements Serializable {
 
     public void setBairro(Bairro bairro) {
         this.bairro = bairro;
+    }
+
+    public String getEnderecoCompleto() {
+        return getRua()+","+getNumero()+","+getBairro().getNome();
     }
 
     @Override

@@ -39,10 +39,10 @@ public class Pessoa implements Serializable {
     @Column(name = "sexo", length = 1, nullable = false)
     private String sexo;
 
-    @Column(name = "rg", length = 11, nullable = false)
+    @Column(name = "rg", length = 11, nullable = false, unique = true)
     private String rg;
 
-    @Column(name = "cpf", length = 11, nullable = false)
+    @Column(name = "cpf", length = 11, nullable = false, unique = true)
     private String cpf;
 
     @Temporal(TemporalType.DATE)
@@ -69,7 +69,7 @@ public class Pessoa implements Serializable {
     }
 
     public String getSexo() {
-        return sexo;
+        return ("M".equals(sexo)) ? "Masculino" : "Feminino";
     }
 
     public void setSexo(String sexo) {
@@ -140,7 +140,7 @@ public class Pessoa implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.servirjanuaria.amauri.entidade.Pessoa[ id=" + id + " ]";
+        return "br.com.servirjanuaria.amauri.domainModel.Pessoa[ id=" + id + " ]";
     }
 
 }

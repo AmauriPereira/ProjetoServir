@@ -6,11 +6,13 @@
 package br.com.servirjanuaria.amauri.domainModel;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -23,14 +25,21 @@ public class Mae extends Pessoa implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @Column(name = "telefone", length = 10, nullable = false)
     private String telefone;
+
     @Column(name = "localTrabalho", nullable = false)
     private String localTrabalho;
+
     @Column(name = "cpf", nullable = false, length = 11)
     private String cpf;
+
     @Column(name = "rg", nullable = false, length = 20)
     private String rg;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Pessoa pessoa;
 
     public Long getId() {
         return id;
@@ -70,6 +79,14 @@ public class Mae extends Pessoa implements Serializable {
 
     public void setRg(String rg) {
         this.rg = rg;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
     }
 
     @Override

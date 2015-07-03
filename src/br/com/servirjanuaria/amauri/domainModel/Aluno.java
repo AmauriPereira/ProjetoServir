@@ -45,8 +45,14 @@ public class Aluno extends Pessoa implements Serializable {
     @ManyToOne
     private CertidaoNascimento certidaoNascimento;
 
-    @ManyToOne
+    @ManyToOne()
     private Pessoa pessoa;
+    
+    @ManyToOne()
+    private Pai pai;
+    
+    @ManyToOne()
+    private Mae mae;
 
     public Long getId() {
         return id;
@@ -112,6 +118,23 @@ public class Aluno extends Pessoa implements Serializable {
         this.pessoa = pessoa;
     }
 
+    public Pai getPai() {
+        return pai;
+    }
+
+    public void setPai(Pai pai) {
+        this.pai = pai;
+    }
+
+    public Mae getMae() {
+        return mae;
+    }
+
+    public void setMae(Mae mae) {
+        this.mae = mae;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -134,7 +157,7 @@ public class Aluno extends Pessoa implements Serializable {
 
     @Override
     public String toString() {
-        return cidadeNascimento;
+        return "Alunos";
     }
 
 }
