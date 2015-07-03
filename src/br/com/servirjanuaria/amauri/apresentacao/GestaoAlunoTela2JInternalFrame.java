@@ -1,0 +1,757 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.com.servirjanuaria.amauri.apresentacao;
+
+import br.com.servirjanuaria.amauri.dataAccess.MaeDAO;
+import br.com.servirjanuaria.amauri.dataAccess.MatriculaDAO;
+import br.com.servirjanuaria.amauri.dataAccess.PaiDAO;
+import br.com.servirjanuaria.amauri.dataAccess.ProgramaSocialDAO;
+import br.com.servirjanuaria.amauri.dataAccess.UnidadeEscolarDAO;
+import br.com.servirjanuaria.amauri.domainModel.Aluno;
+import br.com.servirjanuaria.amauri.domainModel.Mae;
+import br.com.servirjanuaria.amauri.domainModel.Matricula;
+import br.com.servirjanuaria.amauri.domainModel.Pai;
+import br.com.servirjanuaria.amauri.domainModel.ProgramaSocial;
+import br.com.servirjanuaria.amauri.domainModel.UnidadeEscolar;
+import br.com.servirjanuaria.amauri.domainModel.repositorios.MaeRepositorio;
+import br.com.servirjanuaria.amauri.domainModel.repositorios.MatriculaRepositorio;
+import br.com.servirjanuaria.amauri.domainModel.repositorios.PaiRepositorio;
+import br.com.servirjanuaria.amauri.domainModel.repositorios.ProgramaSocialRepositorio;
+import br.com.servirjanuaria.amauri.domainModel.repositorios.UnidadeEscolarRepositorio;
+import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author amauri_pereira
+ */
+public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
+
+    private static JDesktopPane painelPrincipal = null;
+    
+    
+    static ProgramaSocialRepositorio programasSociais = new ProgramaSocialDAO();
+    static UnidadeEscolarRepositorio unidadesEscolares = new UnidadeEscolarDAO();
+    static MatriculaRepositorio matriculas = new MatriculaDAO();
+    static PaiRepositorio pais = new PaiDAO();
+    static MaeRepositorio maes = new MaeDAO();
+    Aluno aluno = new Aluno();
+
+    /**
+     * Creates new form GestaoAlunoTela2JInternalFrame
+     *
+     * @param painelPrincipal
+     * @param aluno
+     */
+    public GestaoAlunoTela2JInternalFrame(JDesktopPane painelPrincipal,Aluno aluno) {
+        initComponents();
+        GestaoAlunoTela2JInternalFrame.painelPrincipal = painelPrincipal;
+        this.aluno = aluno;
+    }
+
+    //Metodo que add todos os projetos cadastrados na ComboBoxBairro
+    private void populaCmbProgramasSociais() {
+
+        ProgramaSocial programaSocial = new ProgramaSocial();
+        cmbProgramasSociais.removeAllItems();
+        cmbProgramasSociais.addItem("Selecione");
+
+        for (ProgramaSocial programaSocialItem : programasSociais.buscar(programaSocial)) {
+            cmbProgramasSociais.addItem(programaSocialItem.getNome());
+        }
+
+    }
+    
+    public void captaDadosEscola() {
+        //Captando dados escola
+        String nomeEscola = txtNomeEscola.getText();
+        String enderecoEscola = txtEnderecoEscola.getText();
+        String telefoneEscola = txtTelefoneEscola.getText();
+
+        //Capta dados do aluno referente a escola
+        String serie = cmbSerie.getSelectedItem().toString();
+        String turno = cmbTurno.getSelectedItem().toString();
+        String egressoRede = txtEgressoRede.getText();
+
+        UnidadeEscolar unidadeEscolar = new UnidadeEscolar();
+        unidadeEscolar.setNome(nomeEscola);
+        unidadeEscolar.setContato(enderecoEscola);
+        unidadeEscolar.setTelefone(telefoneEscola);
+
+        Matricula matricula = new Matricula();
+        matricula.setEgressoRede(egressoRede);
+        matricula.setSerie(serie);
+        matricula.setTurno(turno);
+        matricula.setUnidadeEscolar(unidadeEscolar);
+//        aluno.
+
+    }
+
+    public void captaDadosFormularioFiliacao() {
+
+        //capta dados pai
+        String nomePai = txtNomePai.getText();
+        String rgPai = txtRgPai.getText();
+        String cpfPai = txtCpfPai.getText();
+        String localTrabalhoPai = txtLocalTrabahoPai.getText();
+
+        Pai pai = new Pai();
+        pai.setNome(nomePai);
+        pai.setCpf("675.098.567.87");
+        pai.setRg(rgPai);
+        pai.setLocalTrabalho(localTrabalhoPai);
+
+        //capta dados Mae
+        String nomeMae = txtNomeMae.getText();
+        String rgMae = txtRgMae.getText();
+        String cpfMae = txtCpfMae.getText();
+        String localTrabalhoMae = txtLocalTrabalhoMae.getText();
+
+        Mae mae = new Mae();
+        mae.setNome(nomeMae);
+        mae.setRg(rgMae);
+        mae.setCpf("123.434.555-94");
+        mae.setLocalTrabalho(localTrabalhoMae);
+        try {
+            //maes.salvar(mae);
+            pais.salvar(pai);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e, "Filiação", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jpnFotoGeral = new javax.swing.JPanel();
+        btnUploadFoto = new javax.swing.JButton();
+        lblFoto = new javax.swing.JLabel();
+        btnRemoverFoto = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        cmbProgramasSociais = new javax.swing.JComboBox();
+        btnAddProgramaSocial = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton5 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jpnEscola = new javax.swing.JPanel();
+        lblNomeEscola = new javax.swing.JLabel();
+        txtNomeEscola = new javax.swing.JTextField();
+        lblEnderecoEscola = new javax.swing.JLabel();
+        txtEnderecoEscola = new javax.swing.JTextField();
+        lblTelefoneEscola = new javax.swing.JLabel();
+        txtTelefoneEscola = new javax.swing.JFormattedTextField();
+        lblTurno = new javax.swing.JLabel();
+        cmbTurno = new javax.swing.JComboBox();
+        lblSerie = new javax.swing.JLabel();
+        cmbSerie = new javax.swing.JComboBox();
+        lblEgressoRede = new javax.swing.JLabel();
+        txtEgressoRede = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
+        jpnMae = new javax.swing.JPanel();
+        lblNomeMae = new javax.swing.JLabel();
+        txtNomeMae = new javax.swing.JTextField();
+        lblRgMae = new javax.swing.JLabel();
+        txtRgMae = new javax.swing.JTextField();
+        lblLocalTrabalhoMae = new javax.swing.JLabel();
+        txtLocalTrabalhoMae = new javax.swing.JTextField();
+        lblCpfMae = new javax.swing.JLabel();
+        lblTelefoneMae = new javax.swing.JLabel();
+        txtCpfMae = new javax.swing.JFormattedTextField();
+        txtTelefoneMae = new javax.swing.JFormattedTextField();
+        jpnPai = new javax.swing.JPanel();
+        lblNomePai = new javax.swing.JLabel();
+        txtNomePai = new javax.swing.JTextField();
+        lblRgPai = new javax.swing.JLabel();
+        txtRgPai = new javax.swing.JTextField();
+        lblLocalTrabalhoPai = new javax.swing.JLabel();
+        txtLocalTrabahoPai = new javax.swing.JTextField();
+        lblCpfPai = new javax.swing.JLabel();
+        lblTelefonePai = new javax.swing.JLabel();
+        txtTelefonePai = new javax.swing.JFormattedTextField();
+        txtCpfPai = new javax.swing.JFormattedTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setTitle("Matricula Aluno");
+
+        jpnFotoGeral.setBorder(javax.swing.BorderFactory.createTitledBorder("Foto do Aluno"));
+
+        btnUploadFoto.setText("Upload");
+        btnUploadFoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUploadFotoActionPerformed(evt);
+            }
+        });
+
+        btnRemoverFoto.setText("Excuir");
+        btnRemoverFoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoverFotoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jpnFotoGeralLayout = new javax.swing.GroupLayout(jpnFotoGeral);
+        jpnFotoGeral.setLayout(jpnFotoGeralLayout);
+        jpnFotoGeralLayout.setHorizontalGroup(
+            jpnFotoGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnFotoGeralLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpnFotoGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnUploadFoto, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                    .addComponent(lblFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnRemoverFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jpnFotoGeralLayout.setVerticalGroup(
+            jpnFotoGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnFotoGeralLayout.createSequentialGroup()
+                .addComponent(lblFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnUploadFoto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnRemoverFoto)
+                .addGap(6, 6, 6))
+        );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Programas Sociais"));
+
+        cmbProgramasSociais.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbProgramasSociais.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cmbProgramasSociaisFocusGained(evt);
+            }
+        });
+
+        btnAddProgramaSocial.setText("+");
+        btnAddProgramaSocial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddProgramaSocialActionPerformed(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Programas Sociais", "Excluir"
+            }
+        ));
+        jTable1.setPreferredSize(new java.awt.Dimension(100, 64));
+        jScrollPane1.setViewportView(jTable1);
+
+        jButton5.setText("Remover");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(cmbProgramasSociais, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAddProgramaSocial))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton5)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbProgramasSociais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAddProgramaSocial))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton5)
+                .addContainerGap())
+        );
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados Escolares"));
+
+        jpnEscola.setBorder(javax.swing.BorderFactory.createTitledBorder("Escola"));
+
+        lblNomeEscola.setText("Nome da Escola:");
+
+        lblEnderecoEscola.setText("Endereco:");
+
+        lblTelefoneEscola.setText("Telefone:");
+
+        try {
+            txtTelefoneEscola.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        javax.swing.GroupLayout jpnEscolaLayout = new javax.swing.GroupLayout(jpnEscola);
+        jpnEscola.setLayout(jpnEscolaLayout);
+        jpnEscolaLayout.setHorizontalGroup(
+            jpnEscolaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnEscolaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpnEscolaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNomeEscola)
+                    .addGroup(jpnEscolaLayout.createSequentialGroup()
+                        .addGroup(jpnEscolaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblEnderecoEscola)
+                            .addComponent(lblNomeEscola)
+                            .addComponent(txtEnderecoEscola))
+                        .addGap(10, 10, 10)
+                        .addGroup(jpnEscolaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jpnEscolaLayout.createSequentialGroup()
+                                .addComponent(lblTelefoneEscola)
+                                .addGap(74, 74, 74))
+                            .addComponent(txtTelefoneEscola))))
+                .addContainerGap())
+        );
+        jpnEscolaLayout.setVerticalGroup(
+            jpnEscolaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnEscolaLayout.createSequentialGroup()
+                .addComponent(lblNomeEscola)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNomeEscola, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jpnEscolaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEnderecoEscola)
+                    .addComponent(lblTelefoneEscola))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jpnEscolaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtEnderecoEscola, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTelefoneEscola, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        lblTurno.setText("Turno:");
+
+        cmbTurno.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecione", "Matutino", "Vespertino", "Noturno" }));
+
+        lblSerie.setText("Serie:");
+
+        cmbSerie.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecione", "1", "2", "3", "4", "5", "6", "7", "8", "9" }));
+
+        lblEgressoRede.setText("Egresso Rede:");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jpnEscola, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(lblTurno)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(cmbTurno, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblSerie)
+                            .addComponent(cmbSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(lblEgressoRede)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtEgressoRede))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jpnEscola, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTurno)
+                    .addComponent(lblSerie))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblEgressoRede)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtEgressoRede, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Filiação"));
+
+        jpnMae.setBorder(javax.swing.BorderFactory.createTitledBorder("Mãe"));
+
+        lblNomeMae.setText("Nome:");
+
+        lblRgMae.setText("RG:");
+
+        lblLocalTrabalhoMae.setText("Local de Trabalho:");
+
+        lblCpfMae.setText("CPF:");
+
+        lblTelefoneMae.setText("Telefone:");
+
+        try {
+            txtCpfMae.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtCpfMae.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCpfMaeActionPerformed(evt);
+            }
+        });
+
+        try {
+            txtTelefoneMae.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        javax.swing.GroupLayout jpnMaeLayout = new javax.swing.GroupLayout(jpnMae);
+        jpnMae.setLayout(jpnMaeLayout);
+        jpnMaeLayout.setHorizontalGroup(
+            jpnMaeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnMaeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpnMaeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtLocalTrabalhoMae)
+                    .addComponent(txtNomeMae)
+                    .addGroup(jpnMaeLayout.createSequentialGroup()
+                        .addGroup(jpnMaeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNomeMae)
+                            .addComponent(lblLocalTrabalhoMae))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jpnMaeLayout.createSequentialGroup()
+                        .addGroup(jpnMaeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblRgMae)
+                            .addComponent(txtRgMae, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jpnMaeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblCpfMae)
+                            .addComponent(txtCpfMae, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                        .addGroup(jpnMaeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jpnMaeLayout.createSequentialGroup()
+                                .addComponent(lblTelefoneMae)
+                                .addGap(57, 57, 57))
+                            .addComponent(txtTelefoneMae))))
+                .addContainerGap())
+        );
+        jpnMaeLayout.setVerticalGroup(
+            jpnMaeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnMaeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblNomeMae)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNomeMae, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jpnMaeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRgMae)
+                    .addComponent(lblCpfMae)
+                    .addComponent(lblTelefoneMae))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jpnMaeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtRgMae, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCpfMae, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTelefoneMae, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblLocalTrabalhoMae)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtLocalTrabalhoMae, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
+
+        jpnPai.setBorder(javax.swing.BorderFactory.createTitledBorder("Pai"));
+
+        lblNomePai.setText("Nome:");
+
+        lblRgPai.setText("RG:");
+
+        lblLocalTrabalhoPai.setText("Local de Trabalho:");
+
+        lblCpfPai.setText("CPF:");
+
+        lblTelefonePai.setText("Telefone:");
+
+        try {
+            txtTelefonePai.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            txtCpfPai.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        javax.swing.GroupLayout jpnPaiLayout = new javax.swing.GroupLayout(jpnPai);
+        jpnPai.setLayout(jpnPaiLayout);
+        jpnPaiLayout.setHorizontalGroup(
+            jpnPaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnPaiLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpnPaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtLocalTrabahoPai)
+                    .addComponent(txtNomePai)
+                    .addGroup(jpnPaiLayout.createSequentialGroup()
+                        .addGroup(jpnPaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNomePai)
+                            .addComponent(lblLocalTrabalhoPai))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jpnPaiLayout.createSequentialGroup()
+                        .addGroup(jpnPaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtRgPai, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblRgPai))
+                        .addGap(18, 18, 18)
+                        .addGroup(jpnPaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpnPaiLayout.createSequentialGroup()
+                                .addComponent(lblCpfPai)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtCpfPai, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jpnPaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jpnPaiLayout.createSequentialGroup()
+                                .addComponent(lblTelefonePai)
+                                .addGap(57, 57, 57))
+                            .addComponent(txtTelefonePai))))
+                .addContainerGap())
+        );
+        jpnPaiLayout.setVerticalGroup(
+            jpnPaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnPaiLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblNomePai)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNomePai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jpnPaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRgPai)
+                    .addComponent(lblCpfPai)
+                    .addComponent(lblTelefonePai))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jpnPaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtRgPai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTelefonePai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCpfPai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblLocalTrabalhoPai)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtLocalTrabahoPai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jpnPai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jpnMae, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jpnPai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jpnMae, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jButton1.setText("Finalizar");
+
+        jButton2.setText("Avançar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Cancelar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jpnFotoGeral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jpnFotoGeral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnUploadFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploadFotoActionPerformed
+
+    }//GEN-LAST:event_btnUploadFotoActionPerformed
+
+    private void btnRemoverFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverFotoActionPerformed
+        //lblFoto.setText("");
+    }//GEN-LAST:event_btnRemoverFotoActionPerformed
+
+    private void cmbProgramasSociaisFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cmbProgramasSociaisFocusGained
+        populaCmbProgramasSociais();
+    }//GEN-LAST:event_cmbProgramasSociaisFocusGained
+
+    private void btnAddProgramaSocialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProgramaSocialActionPerformed
+        CadastroProgramaSocialJFrame cadastroProgramaSocialJFrame = new CadastroProgramaSocialJFrame();
+        cadastroProgramaSocialJFrame.setVisible(true);
+    }//GEN-LAST:event_btnAddProgramaSocialActionPerformed
+
+    private void txtCpfMaeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCpfMaeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCpfMaeActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       // this.captaDadosEscola();
+       // this.captaDadosFormularioFiliacao();
+        GestaoAlunoTela3JInternalFrame gestaoAlunoTela3JInternalFrame = new GestaoAlunoTela3JInternalFrame();
+        gestaoAlunoTela3JInternalFrame.setVisible(true);
+        painelPrincipal.add(gestaoAlunoTela3JInternalFrame); 
+        this.isIconifiable();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddProgramaSocial;
+    private javax.swing.JButton btnRemoverFoto;
+    private javax.swing.JButton btnUploadFoto;
+    private javax.swing.JComboBox cmbProgramasSociais;
+    private javax.swing.JComboBox cmbSerie;
+    private javax.swing.JComboBox cmbTurno;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JPanel jpnEscola;
+    private javax.swing.JPanel jpnFotoGeral;
+    private javax.swing.JPanel jpnMae;
+    private javax.swing.JPanel jpnPai;
+    private javax.swing.JLabel lblCpfMae;
+    private javax.swing.JLabel lblCpfPai;
+    private javax.swing.JLabel lblEgressoRede;
+    private javax.swing.JLabel lblEnderecoEscola;
+    private javax.swing.JLabel lblFoto;
+    private javax.swing.JLabel lblLocalTrabalhoMae;
+    private javax.swing.JLabel lblLocalTrabalhoPai;
+    private javax.swing.JLabel lblNomeEscola;
+    private javax.swing.JLabel lblNomeMae;
+    private javax.swing.JLabel lblNomePai;
+    private javax.swing.JLabel lblRgMae;
+    private javax.swing.JLabel lblRgPai;
+    private javax.swing.JLabel lblSerie;
+    private javax.swing.JLabel lblTelefoneEscola;
+    private javax.swing.JLabel lblTelefoneMae;
+    private javax.swing.JLabel lblTelefonePai;
+    private javax.swing.JLabel lblTurno;
+    private javax.swing.JFormattedTextField txtCpfMae;
+    private javax.swing.JFormattedTextField txtCpfPai;
+    private javax.swing.JTextField txtEgressoRede;
+    private javax.swing.JTextField txtEnderecoEscola;
+    private javax.swing.JTextField txtLocalTrabahoPai;
+    private javax.swing.JTextField txtLocalTrabalhoMae;
+    private javax.swing.JTextField txtNomeEscola;
+    private javax.swing.JTextField txtNomeMae;
+    private javax.swing.JTextField txtNomePai;
+    private javax.swing.JTextField txtRgMae;
+    private javax.swing.JTextField txtRgPai;
+    private javax.swing.JFormattedTextField txtTelefoneEscola;
+    private javax.swing.JFormattedTextField txtTelefoneMae;
+    private javax.swing.JFormattedTextField txtTelefonePai;
+    // End of variables declaration//GEN-END:variables
+}
