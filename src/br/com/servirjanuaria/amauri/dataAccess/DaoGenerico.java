@@ -5,9 +5,7 @@
  */
 package br.com.servirjanuaria.amauri.dataAccess;
 
-import br.com.servirjanuaria.amauri.domainModel.Usuario;
 import br.com.servirjanuaria.amauri.domainModel.repositorios.Repositorio;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +24,7 @@ public abstract class DaoGenerico<T> implements Repositorio<T> {
 
     private EntityManagerFactory fabrica = Persistence.createEntityManagerFactory("SistemaServirPU");
     protected EntityManager manager;
-    private Class tipo;
+    private final Class tipo;
     String where = "";
     String orderby = "";
     String jpql = "select c from ";
@@ -47,8 +45,7 @@ public abstract class DaoGenerico<T> implements Repositorio<T> {
 
             return true;
         } catch (Exception e) {
-            System.out.println("erro ao salvar: " + e);
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
 
     }
@@ -69,11 +66,10 @@ public abstract class DaoGenerico<T> implements Repositorio<T> {
             for (String parametro : parametros.keySet()) {
                 consulta.setParameter(parametro, parametros.get(parametro));
             }
-            
+
             return consulta.getResultList();
 
         } catch (Exception e) {
-            System.out.println("erro ao buscar: " + e);
             throw new RuntimeException(e);
         } finally {
 
@@ -127,12 +123,18 @@ public abstract class DaoGenerico<T> implements Repositorio<T> {
 
     @Override
     public T abrir(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (T) manager.find(tipo, id);
     }
 
     @Override
     public boolean apagar(T obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            obj = (T) manager.merge(obj);
+            manager.remove(obj);
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public abstract List<T> buscar(T filtro);

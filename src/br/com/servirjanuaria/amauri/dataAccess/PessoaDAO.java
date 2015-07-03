@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Amauri
  */
-public class PessoaDAO extends DaoGenerico<Pessoa> implements PessoaRepositorio{
+public class PessoaDAO extends DaoGenerico<Pessoa> implements PessoaRepositorio {
 
     public PessoaDAO() {
         super(Pessoa.class);
@@ -21,7 +21,12 @@ public class PessoaDAO extends DaoGenerico<Pessoa> implements PessoaRepositorio{
 
     @Override
     public List<Pessoa> buscar(Pessoa filtro) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            return Like("nome", filtro.getNome())
+                    .buscar();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
-    
+
 }

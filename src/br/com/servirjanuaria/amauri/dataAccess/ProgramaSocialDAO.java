@@ -5,33 +5,31 @@
  */
 package br.com.servirjanuaria.amauri.dataAccess;
 
-import br.com.servirjanuaria.amauri.domainModel.Bairro;
-import br.com.servirjanuaria.amauri.domainModel.repositorios.BairroRepositorio;
+import br.com.servirjanuaria.amauri.domainModel.ProgramaSocial;
+import br.com.servirjanuaria.amauri.domainModel.repositorios.ProgramaSocialRepositorio;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author Amauri
  */
-public class BairroDAO extends DaoGenerico<Bairro> implements BairroRepositorio {
+public class ProgramaSocialDAO extends DaoGenerico<ProgramaSocial> implements ProgramaSocialRepositorio {
 
-    public BairroDAO() {
-        super(Bairro.class);
+    public ProgramaSocialDAO() {
+        super(ProgramaSocial.class);
     }
 
     @Override
-    public List<Bairro> buscar(Bairro filtro) {
+    public List<ProgramaSocial> buscar(ProgramaSocial filtro) {
 
         try {
-
             return Like("nome", filtro.getNome())
                     .buscar();
 
         } catch (Exception e) {
-
             throw new RuntimeException(e);
         }
+
     }
 
 }

@@ -21,7 +21,13 @@ public class AlunoDAO extends DaoGenerico<Aluno> implements AlunoRepositorio {
 
     @Override
     public List<Aluno> buscar(Aluno filtro) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            return Like("nome", filtro.getNome())
+                    .Like("DTYPE", filtro.toString())
+                    .buscar();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
