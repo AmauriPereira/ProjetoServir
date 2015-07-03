@@ -7,8 +7,6 @@ package br.com.servirjanuaria.amauri.domainModel.repositorios;
 
 import br.com.servirjanuaria.amauri.domainModel.Endereco;
 
-
-
 /**
  *
  * @author Amauri

@@ -5,14 +5,12 @@
  */
 package br.com.servirjanuaria.amauri.domainModel.repositorios;
 
-import br.com.servirjanuaria.amauri.domainModel.Aluno;
+import br.com.servirjanuaria.amauri.domainModel.Mae;
 
 /**
  *
  * @author Amauri
  */
-public interface AlunoRepositorio extends Repositorio<Aluno> {
-
+public interface MaeRepositorio extends Repositorio<Mae>{
     
-
 }
