@@ -119,16 +119,19 @@ public class CadastroProgramaSocialJInternalFrame extends javax.swing.JInternalF
             ProgramaSocial programaSocial = new ProgramaSocial();
             programaSocial.setNome(nome);
             programasSociais.salvar(programaSocial);
-            JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Cadastro de Deficiência", JOptionPane.OK_OPTION);
+            if (JOptionPane.showConfirmDialog(null, "Deseja realmente salvar?", "Cadastro de Programa Social", JOptionPane.YES_NO_OPTION) == 0) {
+                programasSociais.salvar(programaSocial);
+                JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Cadastro de Programa Social", JOptionPane.OK_OPTION);
+            }
             this.dispose();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Não foi possivel realizar o cadastro!", "Deficiêcia", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Não foi possivel realizar o cadastro!" + e, "Cadastro de Programa Social", JOptionPane.ERROR_MESSAGE);
 
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        if (JOptionPane.showConfirmDialog(null, "Deseja realmente cancelar?", "Cadastro Bairro", JOptionPane.YES_NO_OPTION) == 0) {
+        if (JOptionPane.showConfirmDialog(null, "Deseja realmente cancelar?", "Cadastro de Programa Social", JOptionPane.YES_NO_OPTION) == 0) {
             this.dispose();
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
