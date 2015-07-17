@@ -5,24 +5,48 @@
  */
 package br.com.servirjanuaria.amauri.apresentacao;
 
+import br.com.servirjanuaria.amauri.dataAccess.AlunoDAO;
+import br.com.servirjanuaria.amauri.dataAccess.BairroDAO;
+import br.com.servirjanuaria.amauri.dataAccess.CertidaoNascimentoDAO;
+import br.com.servirjanuaria.amauri.dataAccess.EnderecoDAO;
 import br.com.servirjanuaria.amauri.dataAccess.MaeDAO;
 import br.com.servirjanuaria.amauri.dataAccess.MatriculaDAO;
 import br.com.servirjanuaria.amauri.dataAccess.PaiDAO;
 import br.com.servirjanuaria.amauri.dataAccess.ProgramaSocialDAO;
 import br.com.servirjanuaria.amauri.dataAccess.UnidadeEscolarDAO;
 import br.com.servirjanuaria.amauri.domainModel.Aluno;
+import br.com.servirjanuaria.amauri.domainModel.CertidaoNascimento;
+import br.com.servirjanuaria.amauri.domainModel.Endereco;
 import br.com.servirjanuaria.amauri.domainModel.Mae;
 import br.com.servirjanuaria.amauri.domainModel.Matricula;
 import br.com.servirjanuaria.amauri.domainModel.Pai;
 import br.com.servirjanuaria.amauri.domainModel.ProgramaSocial;
 import br.com.servirjanuaria.amauri.domainModel.UnidadeEscolar;
+import br.com.servirjanuaria.amauri.domainModel.repositorios.AlunoRepositorio;
+import br.com.servirjanuaria.amauri.domainModel.repositorios.BairroRepositorio;
+import br.com.servirjanuaria.amauri.domainModel.repositorios.CertidaoNascimentoRepositorio;
+import br.com.servirjanuaria.amauri.domainModel.repositorios.EnderecoRepositorio;
 import br.com.servirjanuaria.amauri.domainModel.repositorios.MaeRepositorio;
 import br.com.servirjanuaria.amauri.domainModel.repositorios.MatriculaRepositorio;
 import br.com.servirjanuaria.amauri.domainModel.repositorios.PaiRepositorio;
 import br.com.servirjanuaria.amauri.domainModel.repositorios.ProgramaSocialRepositorio;
 import br.com.servirjanuaria.amauri.domainModel.repositorios.UnidadeEscolarRepositorio;
+import java.awt.ItemSelectable;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -31,25 +55,44 @@ import javax.swing.JOptionPane;
 public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
 
     private static JDesktopPane painelPrincipal = null;
-    
-    
+
+    static AlunoRepositorio alunos = new AlunoDAO();
+    static CertidaoNascimentoRepositorio certidoes = new CertidaoNascimentoDAO();
+    static EnderecoRepositorio enderecos = new EnderecoDAO();
+    static BairroRepositorio bairros = new BairroDAO();
     static ProgramaSocialRepositorio programasSociais = new ProgramaSocialDAO();
     static UnidadeEscolarRepositorio unidadesEscolares = new UnidadeEscolarDAO();
     static MatriculaRepositorio matriculas = new MatriculaDAO();
     static PaiRepositorio pais = new PaiDAO();
     static MaeRepositorio maes = new MaeDAO();
+    Endereco endereco = new Endereco();
+    CertidaoNascimento certidaoNascimento = new CertidaoNascimento();
     Aluno aluno = new Aluno();
+    Pai pai = new Pai();
+    Mae mae = new Mae();
+    Matricula matricula = new Matricula();
+    UnidadeEscolar unidadeEscolar = new UnidadeEscolar();
+    static int i = 0;
+
+    List<ProgramaSocial> ListaProgramaSocial = new ArrayList<>();
 
     /**
      * Creates new form GestaoAlunoTela2JInternalFrame
      *
      * @param painelPrincipal
      * @param aluno
+     * @param certidaoNascimento
+     * @param endereco
      */
-    public GestaoAlunoTela2JInternalFrame(JDesktopPane painelPrincipal,Aluno aluno) {
+    public GestaoAlunoTela2JInternalFrame(JDesktopPane painelPrincipal, Aluno aluno, CertidaoNascimento certidaoNascimento, Endereco endereco) {
         initComponents();
         GestaoAlunoTela2JInternalFrame.painelPrincipal = painelPrincipal;
         this.aluno = aluno;
+        this.endereco = endereco;
+        this.certidaoNascimento = certidaoNascimento;
+        populaCmbProgramasSociais();
+        configuraTabelaProgramaSocial();
+
     }
 
     //Metodo que add todos os projetos cadastrados na ComboBoxBairro
@@ -64,8 +107,61 @@ public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
         }
 
     }
-    
-    public void captaDadosEscola() {
+
+    //Metodo que add os programas sociais selecionado na comboboxProgramaSocial para a JTable
+    private void populaTblProgramasSociais() {
+
+        String programaSocialEscolhido = cmbProgramasSociais.getSelectedItem().toString();
+
+        ProgramaSocial programaSocial = new ProgramaSocial();
+        programaSocial.setNome(programaSocialEscolhido);
+
+        for (ProgramaSocial programaSocialItem : programasSociais.buscar(programaSocial)) {
+
+            ProgramaSocial pgrSocial = new ProgramaSocial();
+
+            if (!ListaProgramaSocial.isEmpty()) {
+
+                if (ComparaDadosLista(programaSocialItem.getNome())) {
+                    DefaultTableModel tableModel = (DefaultTableModel) tblProgramasSociais.getModel();
+                    tableModel.setNumRows(0);
+                } else {
+                    ListaProgramaSocial.add(i, programaSocialItem);
+                    i++;
+                    DefaultTableModel tableModel = (DefaultTableModel) tblProgramasSociais.getModel();
+                    tableModel.setNumRows(0);
+                }
+            } else {
+                ListaProgramaSocial.add(i, programaSocialItem);
+                i++;
+            }
+            Iterator<ProgramaSocial> iteratorProgramaSocial = ListaProgramaSocial.iterator();
+            while (iteratorProgramaSocial.hasNext()) {
+                pgrSocial = iteratorProgramaSocial.next();
+                DefaultTableModel defaultTableModel = (DefaultTableModel) tblProgramasSociais.getModel();
+                defaultTableModel.addRow(new Object[]{pgrSocial.getId(), pgrSocial.getNome()});
+            }
+
+        }
+    }
+
+    //metodo para capturar a data do sistema
+    private static Date getDataAtual() throws ParseException {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar calendar = Calendar.getInstance();
+        String dataFormatada = dateFormat.format(calendar.getTime());
+        return dateFormat.parse(dataFormatada);
+    }
+
+    public static String getAnoMatricula() throws Exception {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar calendar = Calendar.getInstance();
+        String dataFormatada = dateFormat.format(calendar.getTime());
+        String ano = (dataFormatada.substring(0, 4));
+        return ano;
+    }
+
+    private void captaDadosEscola() throws ParseException, Exception {
         //Captando dados escola
         String nomeEscola = txtNomeEscola.getText();
         String enderecoEscola = txtEnderecoEscola.getText();
@@ -76,53 +172,56 @@ public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
         String turno = cmbTurno.getSelectedItem().toString();
         String egressoRede = txtEgressoRede.getText();
 
-        UnidadeEscolar unidadeEscolar = new UnidadeEscolar();
         unidadeEscolar.setNome(nomeEscola);
         unidadeEscolar.setContato(enderecoEscola);
         unidadeEscolar.setTelefone(telefoneEscola);
 
-        Matricula matricula = new Matricula();
         matricula.setEgressoRede(egressoRede);
         matricula.setSerie(serie);
         matricula.setTurno(turno);
+
+        matricula.setAno(getAnoMatricula());
+        matricula.setDataMatricula(getDataAtual());
         matricula.setUnidadeEscolar(unidadeEscolar);
-//        aluno.
+        matricula.setAluno(aluno);
 
     }
 
-    public void captaDadosFormularioFiliacao() {
+    private void captaDadosFormularioFiliacao() {
 
         //capta dados pai
         String nomePai = txtNomePai.getText();
         String rgPai = txtRgPai.getText();
         String cpfPai = txtCpfPai.getText();
+        String telefonePai = txtTelefonePai.getText();
         String localTrabalhoPai = txtLocalTrabahoPai.getText();
 
-        Pai pai = new Pai();
         pai.setNome(nomePai);
-        pai.setCpf("675.098.567.87");
+        pai.setCpf(cpfPai);
         pai.setRg(rgPai);
+        pai.setTelefone(telefonePai);
         pai.setLocalTrabalho(localTrabalhoPai);
+        pai.setPessoa(pai);
 
         //capta dados Mae
         String nomeMae = txtNomeMae.getText();
         String rgMae = txtRgMae.getText();
         String cpfMae = txtCpfMae.getText();
+        String telefoneMae = txtTelefoneMae.getText();
         String localTrabalhoMae = txtLocalTrabalhoMae.getText();
 
-        Mae mae = new Mae();
         mae.setNome(nomeMae);
         mae.setRg(rgMae);
-        mae.setCpf("123.434.555-94");
+        mae.setCpf(cpfMae);
+        mae.setTelefone(telefoneMae);
         mae.setLocalTrabalho(localTrabalhoMae);
-        try {
-            //maes.salvar(mae);
-            pais.salvar(pai);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e, "Filiação", JOptionPane.ERROR_MESSAGE);
-        }
+        mae.setPessoa(mae);
 
+        // filiação do aluno
+        aluno.setPai(pai);
+        aluno.setMae(mae);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -132,18 +231,18 @@ public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jpnGeral = new javax.swing.JPanel();
         jpnFotoGeral = new javax.swing.JPanel();
         btnUploadFoto = new javax.swing.JButton();
         lblFoto = new javax.swing.JLabel();
         btnRemoverFoto = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        jpnProgramasSociais = new javax.swing.JPanel();
         cmbProgramasSociais = new javax.swing.JComboBox();
         btnAddProgramaSocial = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton5 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
+        tblProgramasSociais = new javax.swing.JTable();
+        btnRemover = new javax.swing.JButton();
+        jpnDadosEscolares = new javax.swing.JPanel();
         jpnEscola = new javax.swing.JPanel();
         lblNomeEscola = new javax.swing.JLabel();
         txtNomeEscola = new javax.swing.JTextField();
@@ -157,7 +256,7 @@ public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
         cmbSerie = new javax.swing.JComboBox();
         lblEgressoRede = new javax.swing.JLabel();
         txtEgressoRede = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
+        jpnFiliacao = new javax.swing.JPanel();
         jpnMae = new javax.swing.JPanel();
         lblNomeMae = new javax.swing.JLabel();
         txtNomeMae = new javax.swing.JTextField();
@@ -178,11 +277,11 @@ public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
         txtLocalTrabahoPai = new javax.swing.JTextField();
         lblCpfPai = new javax.swing.JLabel();
         lblTelefonePai = new javax.swing.JLabel();
-        txtTelefonePai = new javax.swing.JFormattedTextField();
         txtCpfPai = new javax.swing.JFormattedTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        txtTelefonePai = new javax.swing.JFormattedTextField();
+        btnFinalizar = new javax.swing.JButton();
+        btnAvancar = new javax.swing.JButton();
+        btnVoltar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -228,12 +327,17 @@ public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
                 .addGap(6, 6, 6))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Programas Sociais"));
+        jpnProgramasSociais.setBorder(javax.swing.BorderFactory.createTitledBorder("Programas Sociais"));
 
         cmbProgramasSociais.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbProgramasSociais.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 cmbProgramasSociaisFocusGained(evt);
+            }
+        });
+        cmbProgramasSociais.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbProgramasSociaisActionPerformed(evt);
             }
         });
 
@@ -244,7 +348,7 @@ public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblProgramasSociais.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -257,47 +361,64 @@ public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
                 {null, null}
             },
             new String [] {
-                "Programas Sociais", "Excluir"
+                "Cod.", "Nome"
             }
-        ));
-        jTable1.setPreferredSize(new java.awt.Dimension(100, 64));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
 
-        jButton5.setText("Remover");
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblProgramasSociais.setFillsViewportHeight(true);
+        tblProgramasSociais.setFocusCycleRoot(true);
+        tblProgramasSociais.setPreferredSize(new java.awt.Dimension(100, 64));
+        jScrollPane1.setViewportView(tblProgramasSociais);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        btnRemover.setText("Remover");
+        btnRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoverActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jpnProgramasSociaisLayout = new javax.swing.GroupLayout(jpnProgramasSociais);
+        jpnProgramasSociais.setLayout(jpnProgramasSociaisLayout);
+        jpnProgramasSociaisLayout.setHorizontalGroup(
+            jpnProgramasSociaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnProgramasSociaisLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(cmbProgramasSociais, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAddProgramaSocial))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton5)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGroup(jpnProgramasSociaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpnProgramasSociaisLayout.createSequentialGroup()
+                        .addGroup(jpnProgramasSociaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jpnProgramasSociaisLayout.createSequentialGroup()
+                                .addComponent(cmbProgramasSociais, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnAddProgramaSocial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jpnProgramasSociaisLayout.createSequentialGroup()
+                                .addGap(86, 86, 86)
+                                .addComponent(btnRemover)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jpnProgramasSociaisLayout.setVerticalGroup(
+            jpnProgramasSociaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnProgramasSociaisLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jpnProgramasSociaisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbProgramasSociais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAddProgramaSocial))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton5)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btnRemover)
                 .addContainerGap())
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados Escolares"));
+        jpnDadosEscolares.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados Escolares"));
 
         jpnEscola.setBorder(javax.swing.BorderFactory.createTitledBorder("Escola"));
 
@@ -326,11 +447,11 @@ public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
                             .addComponent(lblEnderecoEscola)
                             .addComponent(lblNomeEscola)
                             .addComponent(txtEnderecoEscola))
-                        .addGap(10, 10, 10)
+                        .addGap(18, 18, 18)
                         .addGroup(jpnEscolaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jpnEscolaLayout.createSequentialGroup()
                                 .addComponent(lblTelefoneEscola)
-                                .addGap(74, 74, 74))
+                                .addGap(46, 46, 46))
                             .addComponent(txtTelefoneEscola))))
                 .addContainerGap())
         );
@@ -360,50 +481,50 @@ public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
 
         lblEgressoRede.setText("Egresso Rede:");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jpnDadosEscolaresLayout = new javax.swing.GroupLayout(jpnDadosEscolares);
+        jpnDadosEscolares.setLayout(jpnDadosEscolaresLayout);
+        jpnDadosEscolaresLayout.setHorizontalGroup(
+            jpnDadosEscolaresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jpnEscola, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+            .addGroup(jpnDadosEscolaresLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jpnDadosEscolaresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpnDadosEscolaresLayout.createSequentialGroup()
+                        .addGroup(jpnDadosEscolaresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpnDadosEscolaresLayout.createSequentialGroup()
                                 .addComponent(lblTurno)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(cmbTurno, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jpnDadosEscolaresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblSerie)
                             .addComponent(cmbSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(jpnDadosEscolaresLayout.createSequentialGroup()
                         .addComponent(lblEgressoRede)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(txtEgressoRede))
                 .addContainerGap())
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        jpnDadosEscolaresLayout.setVerticalGroup(
+            jpnDadosEscolaresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnDadosEscolaresLayout.createSequentialGroup()
                 .addComponent(jpnEscola, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jpnDadosEscolaresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTurno)
                     .addComponent(lblSerie))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jpnDadosEscolaresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblEgressoRede)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtEgressoRede, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 3, Short.MAX_VALUE))
         );
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Filiação"));
+        jpnFiliacao.setBorder(javax.swing.BorderFactory.createTitledBorder("Filiação"));
 
         jpnMae.setBorder(javax.swing.BorderFactory.createTitledBorder("Mãe"));
 
@@ -454,13 +575,15 @@ public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
                             .addComponent(txtRgMae, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jpnMaeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCpfMae)
-                            .addComponent(txtCpfMae, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                            .addGroup(jpnMaeLayout.createSequentialGroup()
+                                .addComponent(lblCpfMae)
+                                .addGap(0, 86, Short.MAX_VALUE))
+                            .addComponent(txtCpfMae))
+                        .addGap(18, 18, 18)
                         .addGroup(jpnMaeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jpnMaeLayout.createSequentialGroup()
                                 .addComponent(lblTelefoneMae)
-                                .addGap(57, 57, 57))
+                                .addGap(43, 43, 43))
                             .addComponent(txtTelefoneMae))))
                 .addContainerGap())
         );
@@ -501,13 +624,18 @@ public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
         lblTelefonePai.setText("Telefone:");
 
         try {
-            txtTelefonePai.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)####-####")));
+            txtCpfPai.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        txtCpfPai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCpfPaiActionPerformed(evt);
+            }
+        });
 
         try {
-            txtCpfPai.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+            txtTelefonePai.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -533,15 +661,16 @@ public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jpnPaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jpnPaiLayout.createSequentialGroup()
-                                .addComponent(lblCpfPai)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtCpfPai, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jpnPaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtCpfPai)
+                                .addGap(18, 18, 18))
                             .addGroup(jpnPaiLayout.createSequentialGroup()
-                                .addComponent(lblTelefonePai)
-                                .addGap(57, 57, 57))
-                            .addComponent(txtTelefonePai))))
+                                .addComponent(lblCpfPai)
+                                .addGap(101, 101, 101)))
+                        .addGroup(jpnPaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTelefonePai, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+                            .addGroup(jpnPaiLayout.createSequentialGroup()
+                                .addComponent(lblTelefonePai, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jpnPaiLayout.setVerticalGroup(
@@ -557,10 +686,11 @@ public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
                     .addComponent(lblCpfPai)
                     .addComponent(lblTelefonePai))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jpnPaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtRgPai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTelefonePai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCpfPai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jpnPaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpnPaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtCpfPai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtTelefonePai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtRgPai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblLocalTrabalhoPai)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -568,81 +698,86 @@ public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
                 .addContainerGap(29, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout jpnFiliacaoLayout = new javax.swing.GroupLayout(jpnFiliacao);
+        jpnFiliacao.setLayout(jpnFiliacaoLayout);
+        jpnFiliacaoLayout.setHorizontalGroup(
+            jpnFiliacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnFiliacaoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jpnPai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jpnMae, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+        jpnFiliacaoLayout.setVerticalGroup(
+            jpnFiliacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnFiliacaoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jpnFiliacaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jpnPai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpnMae, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        jButton1.setText("Finalizar");
-
-        jButton2.setText("Avançar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnFinalizar.setText("Finalizar");
+        btnFinalizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnFinalizarActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Cancelar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnAvancar.setText("Avançar");
+        btnAvancar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnAvancarActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        btnVoltar.setText("Voltar");
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jpnGeralLayout = new javax.swing.GroupLayout(jpnGeral);
+        jpnGeral.setLayout(jpnGeralLayout);
+        jpnGeralLayout.setHorizontalGroup(
+            jpnGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnGeralLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jpnGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jpnFiliacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jpnGeralLayout.createSequentialGroup()
                         .addComponent(jpnFotoGeral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jpnProgramasSociais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jpnDadosEscolares, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnGeralLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
+                        .addComponent(btnAvancar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnFinalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        jpnGeralLayout.setVerticalGroup(
+            jpnGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnGeralLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jpnGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jpnDadosEscolares, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jpnProgramasSociais, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jpnFotoGeral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jpnFiliacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                .addGroup(jpnGeralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnFinalizar)
+                    .addComponent(btnAvancar)
+                    .addComponent(btnVoltar))
                 .addContainerGap())
         );
 
@@ -652,14 +787,14 @@ public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jpnGeral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jpnGeral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -679,49 +814,125 @@ public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cmbProgramasSociaisFocusGained
 
     private void btnAddProgramaSocialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProgramaSocialActionPerformed
-        CadastroProgramaSocialJFrame cadastroProgramaSocialJFrame = new CadastroProgramaSocialJFrame();
-        cadastroProgramaSocialJFrame.setVisible(true);
+        this.populaCmbProgramasSociais();
+        CadastroProgramaSocialJInternalFrame cadastroProgramaSocialJInternalFrame = new CadastroProgramaSocialJInternalFrame(painelPrincipal);
+        cadastroProgramaSocialJInternalFrame.setVisible(true);
+        painelPrincipal.add(cadastroProgramaSocialJInternalFrame);
+        cadastroProgramaSocialJInternalFrame.toFront();
     }//GEN-LAST:event_btnAddProgramaSocialActionPerformed
 
     private void txtCpfMaeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCpfMaeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCpfMaeActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       // this.captaDadosEscola();
-       // this.captaDadosFormularioFiliacao();
-        GestaoAlunoTela3JInternalFrame gestaoAlunoTela3JInternalFrame = new GestaoAlunoTela3JInternalFrame();
-        gestaoAlunoTela3JInternalFrame.setVisible(true);
-        painelPrincipal.add(gestaoAlunoTela3JInternalFrame); 
-        this.isIconifiable();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnAvancarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvancarActionPerformed
+        try {
+            this.captaDadosEscola();
+            this.captaDadosFormularioFiliacao();
+            GestaoAlunoTela3JInternalFrame gestaoAlunoTela3JInternalFrame = new GestaoAlunoTela3JInternalFrame(painelPrincipal, aluno, certidaoNascimento, endereco, unidadeEscolar, matricula, mae, pai);
+            gestaoAlunoTela3JInternalFrame.setVisible(true);
+            painelPrincipal.add(gestaoAlunoTela3JInternalFrame);
+            gestaoAlunoTela3JInternalFrame.toFront();
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e, "Tela 2", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAvancarActionPerformed
+
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+        if (JOptionPane.showConfirmDialog(null, "Deseja realmente cancelar?", "Cadastro Bairro", JOptionPane.YES_NO_OPTION) == 0) {
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnVoltarActionPerformed
+
+    private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
+        try {
+            this.captaDadosEscola();
+            this.captaDadosFormularioFiliacao();
+            enderecos.salvar(endereco);
+            certidoes.salvar(certidaoNascimento);
+            maes.salvar(mae);
+            pais.salvar(pai);
+            alunos.salvar(aluno);
+            unidadesEscolares.salvar(unidadeEscolar);
+            matriculas.salvar(matricula);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e, "Filiação", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnFinalizarActionPerformed
+
+    private void txtCpfPaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCpfPaiActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_txtCpfPaiActionPerformed
 
+    private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+
+    }//GEN-LAST:event_btnRemoverActionPerformed
+
+    private void cmbProgramasSociaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbProgramasSociaisActionPerformed
+        /*cmbProgramasSociais.addItemListener(new ItemListener() {
+         @Override
+         public void itemStateChanged(ItemEvent e) {
+         if (e.getStateChange() == ItemEvent.SELECTED) {
+         populaTblProgramasSociais();
+         }
+         }
+         }
+         );*/
+
+        /* cmbProgramasSociais.addActionListener(new ActionListener() {
+         @Override
+         public void actionPerformed(ActionEvent e) {
+         populaTblProgramasSociais();
+         }
+         });*/
+        /* cmbProgramasSociais.addItemListener(new ItemListener() {
+         @Override
+         public void itemStateChanged(ItemEvent arg0) {
+         if (arg0.getStateChange() == ItemEvent.SELECTED) {
+         Object item = arg0.getItem();
+         populaTblProgramasSociais();
+         }
+         }
+         }
+         );*/
+        cmbProgramasSociais.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    populaTblProgramasSociais();
+                }
+            }
+        });
+
+
+    }//GEN-LAST:event_cmbProgramasSociaisActionPerformed
+
+    static private String selectedString(ItemSelectable is) {
+        Object selected[] = is.getSelectedObjects();
+        return ((selected.length == 0) ? "null" : (String) selected[0]);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddProgramaSocial;
+    private javax.swing.JButton btnAvancar;
+    private javax.swing.JButton btnFinalizar;
+    private javax.swing.JButton btnRemover;
     private javax.swing.JButton btnRemoverFoto;
     private javax.swing.JButton btnUploadFoto;
+    private javax.swing.JButton btnVoltar;
     private javax.swing.JComboBox cmbProgramasSociais;
     private javax.swing.JComboBox cmbSerie;
     private javax.swing.JComboBox cmbTurno;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JPanel jpnDadosEscolares;
     private javax.swing.JPanel jpnEscola;
+    private javax.swing.JPanel jpnFiliacao;
     private javax.swing.JPanel jpnFotoGeral;
+    private javax.swing.JPanel jpnGeral;
     private javax.swing.JPanel jpnMae;
     private javax.swing.JPanel jpnPai;
+    private javax.swing.JPanel jpnProgramasSociais;
     private javax.swing.JLabel lblCpfMae;
     private javax.swing.JLabel lblCpfPai;
     private javax.swing.JLabel lblEgressoRede;
@@ -739,6 +950,7 @@ public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblTelefoneMae;
     private javax.swing.JLabel lblTelefonePai;
     private javax.swing.JLabel lblTurno;
+    private javax.swing.JTable tblProgramasSociais;
     private javax.swing.JFormattedTextField txtCpfMae;
     private javax.swing.JFormattedTextField txtCpfPai;
     private javax.swing.JTextField txtEgressoRede;
@@ -754,4 +966,30 @@ public class GestaoAlunoTela2JInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField txtTelefoneMae;
     private javax.swing.JFormattedTextField txtTelefonePai;
     // End of variables declaration//GEN-END:variables
+
+    private void configuraTabelaProgramaSocial() {
+
+        tblProgramasSociais.setModel(
+                new javax.swing.table.DefaultTableModel(
+                        new Object[][]{},
+                        new String[]{"Cod.", "Nome"}
+                ) {
+                });
+        tblProgramasSociais.getColumnModel().getColumn(0).setPreferredWidth(5);
+
+    }
+
+    private boolean ComparaDadosLista(String nomePrograma) {
+
+        Iterator<ProgramaSocial> ProgSocialAsIterator = ListaProgramaSocial.iterator();
+
+        while (ProgSocialAsIterator.hasNext()) {
+            ProgramaSocial progSocial = ProgSocialAsIterator.next();
+
+            if (progSocial.getNome().equals(nomePrograma)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
