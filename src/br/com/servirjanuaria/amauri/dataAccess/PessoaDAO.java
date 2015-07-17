@@ -21,12 +21,18 @@ public class PessoaDAO extends DaoGenerico<Pessoa> implements PessoaRepositorio 
 
     @Override
     public List<Pessoa> buscar(Pessoa filtro) {
-        try {
-            return Like("nome", filtro.getNome())
-                    .buscar();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return Like("nome", filtro.getNome())
+                 .Like("DTYPE", "Aluno")
+                .buscar();
+
+    }
+
+    @Override
+    public List<Pessoa> buscarWhereDtype(String nome, String dtype) {
+        return Like("nome", nome)
+                .Like("DTYPE", dtype)
+                .buscar();
+
     }
 
 }

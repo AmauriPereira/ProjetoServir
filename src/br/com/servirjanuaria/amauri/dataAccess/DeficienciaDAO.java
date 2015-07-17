@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Amauri
  */
-public class DeficienciaDAO extends DaoGenerico<Deficiencia> implements DeficienciaRepositorio{
+public class DeficienciaDAO extends DaoGenerico<Deficiencia> implements DeficienciaRepositorio {
 
     public DeficienciaDAO() {
         super(Deficiencia.class);
@@ -21,7 +21,8 @@ public class DeficienciaDAO extends DaoGenerico<Deficiencia> implements Deficien
 
     @Override
     public List<Deficiencia> buscar(Deficiencia filtro) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Like("nome", filtro.getNome())
+                .buscar();
     }
-    
+
 }

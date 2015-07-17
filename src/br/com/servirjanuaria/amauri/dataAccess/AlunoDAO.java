@@ -23,7 +23,7 @@ public class AlunoDAO extends DaoGenerico<Aluno> implements AlunoRepositorio {
     public List<Aluno> buscar(Aluno filtro) {
         try {
             return Like("nome", filtro.getNome())
-                    .Like("DTYPE", filtro.toString())
+                    .Like("DTYPE", "Aluno")
                     .buscar();
         } catch (Exception e) {
             throw new RuntimeException(e);

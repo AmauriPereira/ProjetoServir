@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Amauri
  */
-public class MatriculaDAO extends DaoGenerico<Matricula> implements MatriculaRepositorio{
+public class MatriculaDAO extends DaoGenerico<Matricula> implements MatriculaRepositorio {
 
     public MatriculaDAO() {
         super(Matricula.class);
@@ -23,5 +23,16 @@ public class MatriculaDAO extends DaoGenerico<Matricula> implements MatriculaRep
     public List<Matricula> buscar(Matricula filtro) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    /**
+     *
+     * @param id_Aluno
+     * @return
+     */
+    @Override
+    public List<Matricula> buscarPorAluno(Long id_Aluno) {
+        return IgualA("aluno_id", id_Aluno)
+                .buscar();
+    }
+
 }

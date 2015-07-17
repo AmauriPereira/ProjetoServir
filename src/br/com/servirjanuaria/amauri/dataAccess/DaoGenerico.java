@@ -22,7 +22,7 @@ import javax.persistence.Query;
  */
 public abstract class DaoGenerico<T> implements Repositorio<T> {
 
-    private EntityManagerFactory fabrica = Persistence.createEntityManagerFactory("SistemaServirPU");
+    private final EntityManagerFactory fabrica = Persistence.createEntityManagerFactory("SistemaServirPU");
     protected EntityManager manager;
     private final Class tipo;
     String where = "";

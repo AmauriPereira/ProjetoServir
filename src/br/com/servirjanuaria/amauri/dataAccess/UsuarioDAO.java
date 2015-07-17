@@ -7,7 +7,6 @@ package br.com.servirjanuaria.amauri.dataAccess;
 
 import br.com.servirjanuaria.amauri.domainModel.Usuario;
 import br.com.servirjanuaria.amauri.domainModel.repositorios.UsuarioRepositorio;
-import br.com.servirjanuaria.amauri.excecao.ErroLoginException;
 import java.util.List;
 
 /**
@@ -27,13 +26,10 @@ public class UsuarioDAO extends DaoGenerico<Usuario> implements UsuarioRepositor
 
     @Override
     public List<Usuario> buscar(Usuario filtro) {
-        try {
-            return Like("usuario", filtro.getUsuario())
-                    .Like("senha", filtro.getSenha())
-                    .buscar();
-        } catch (Exception e) {
-            throw new ErroLoginException(e);
-        }
+
+        return Like("usuario", filtro.getUsuario())
+                .Like("senha", filtro.getSenha())
+                .buscar();
 
     }
 
