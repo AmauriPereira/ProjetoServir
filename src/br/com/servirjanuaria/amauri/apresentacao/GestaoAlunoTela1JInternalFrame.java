@@ -397,13 +397,15 @@ public class GestaoAlunoTela1JInternalFrame extends javax.swing.JInternalFrame {
                             .addComponent(txtRG, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jpnIndentificacaoAlunoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblCPF))
+                            .addGroup(jpnIndentificacaoAlunoLayout.createSequentialGroup()
+                                .addComponent(lblCPF)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtCPF))
                         .addGap(18, 18, 18)
-                        .addGroup(jpnIndentificacaoAlunoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jpnIndentificacaoAlunoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jpnIndentificacaoAlunoLayout.createSequentialGroup()
                                 .addComponent(lblCidadeNascimento)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGap(40, 40, 40))
                             .addComponent(txtCidadeNascimento)))
                     .addGroup(jpnIndentificacaoAlunoLayout.createSequentialGroup()
                         .addGroup(jpnIndentificacaoAlunoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -677,6 +679,7 @@ public class GestaoAlunoTela1JInternalFrame extends javax.swing.JInternalFrame {
             /* if (!"".equals(txtRua.getText()) || !"".equals(txtNumero.getText()) || !"".equals(txtCidade.getText()) || !"".equals(txtNumero.getText())) {
              //   if (!"".equals(txtNome.getText()) || !"".equals(cmbSexo.getSelectedItem().toString()) || !"".equals(txtDataNascimento.getText()) || !"".equals(txtCidadeNascimento.getText())) {
              */
+           
             dadosFormularioCadastraAluno();
             GestaoAlunoTela2JInternalFrame gestaoAlunoTela2JInternalFrame = new GestaoAlunoTela2JInternalFrame(GestaoAlunoTela1JInternalFrame.painelPrincipal, aluno, certidaoNascimento, endereco);
             gestaoAlunoTela2JInternalFrame.setVisible(true);
