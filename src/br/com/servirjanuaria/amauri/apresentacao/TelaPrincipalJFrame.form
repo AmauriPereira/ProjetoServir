@@ -9,20 +9,20 @@
             <Property name="text" type="java.lang.String" value="Matr&#xed;cula"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+            <MenuItem class="javax.swing.JMenuItem" name="itmMnuNovamatricula">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Nova Matricula"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itmMnuNovamatriculaActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="Renovacao">
+            <MenuItem class="javax.swing.JMenuItem" name="itmMnuRenovacao">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Renova&#xe7;&#xe3;o"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RenovacaoActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itmMnuRenovacaoActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
