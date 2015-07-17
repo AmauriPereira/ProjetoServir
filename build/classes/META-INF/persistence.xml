@@ -3,11 +3,9 @@
   <persistence-unit name="SistemaServirPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>br.com.servirjanuaria.amauri.domainModel.Aluno</class>
-    <class>br.com.servirjanuaria.amauri.domainModel.Aluno_has_ProgramaSocial</class>
     <class>br.com.servirjanuaria.amauri.domainModel.Bairro</class>
     <class>br.com.servirjanuaria.amauri.domainModel.CertidaoNascimento</class>
     <class>br.com.servirjanuaria.amauri.domainModel.Deficiencia</class>
-    <class>br.com.servirjanuaria.amauri.domainModel.Deficiencia_has_Aluno</class>
     <class>br.com.servirjanuaria.amauri.domainModel.Endereco</class>
     <class>br.com.servirjanuaria.amauri.domainModel.Informacoes</class>
     <class>br.com.servirjanuaria.amauri.domainModel.Mae</class>
