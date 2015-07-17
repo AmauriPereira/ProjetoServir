@@ -6,11 +6,14 @@
 package br.com.servirjanuaria.amauri.domainModel.repositorios;
 
 import br.com.servirjanuaria.amauri.domainModel.Pai;
+import java.util.List;
 
 /**
  *
  * @author Amauri
  */
 public interface PaiRepositorio extends Repositorio<Pai>{
+
+    public List<Pai> buscarPorCodigo(Long id);
     
 }

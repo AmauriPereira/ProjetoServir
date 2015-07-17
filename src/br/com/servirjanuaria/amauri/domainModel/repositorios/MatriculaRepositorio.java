@@ -6,11 +6,14 @@
 package br.com.servirjanuaria.amauri.domainModel.repositorios;
 
 import br.com.servirjanuaria.amauri.domainModel.Matricula;
+import java.util.List;
 
 /**
  *
  * @author Amauri
  */
-public interface MatriculaRepositorio extends Repositorio<Matricula>{
-    
+public interface MatriculaRepositorio extends Repositorio<Matricula> {
+
+    public List<Matricula> buscarPorAluno(Long id);
+
 }

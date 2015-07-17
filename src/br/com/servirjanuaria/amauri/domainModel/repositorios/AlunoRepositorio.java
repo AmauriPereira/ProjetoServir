@@ -13,6 +13,4 @@ import br.com.servirjanuaria.amauri.domainModel.Aluno;
  */
 public interface AlunoRepositorio extends Repositorio<Aluno> {
 
-    
-
 }

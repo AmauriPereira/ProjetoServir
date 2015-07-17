@@ -6,11 +6,14 @@
 package br.com.servirjanuaria.amauri.domainModel.repositorios;
 
 import br.com.servirjanuaria.amauri.domainModel.Pessoa;
+import java.util.List;
 
 /**
  *
  * @author Amauri
  */
 public interface PessoaRepositorio extends Repositorio<Pessoa>{
+
+    public List<Pessoa> buscarWhereDtype(String nome, String dtype);
     
 }
