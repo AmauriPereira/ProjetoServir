@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -32,8 +33,14 @@ public class Informacoes implements Serializable {
     @Column(name = "problemas_saude", nullable = false)
     private String problemaSaude;
 
+    @Column(name = "info_complementar", nullable = false)
+    private String infoComplementar;
+
     @Column(name = "outros", nullable = false)
     private String outros;
+
+    @ManyToOne()
+    private Aluno aluno;
 
     public Long getId() {
         return id;
@@ -59,12 +66,28 @@ public class Informacoes implements Serializable {
         this.problemaSaude = problemaSaude;
     }
 
+    public String getInfoComplementar() {
+        return infoComplementar;
+    }
+
+    public void setInfoComplementar(String infoComplementar) {
+        this.infoComplementar = infoComplementar;
+    }
+
     public String getOutros() {
         return outros;
     }
 
     public void setOutros(String outros) {
         this.outros = outros;
+    }
+
+    public Aluno getAluno() {
+        return aluno;
+    }
+
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
     }
 
     @Override

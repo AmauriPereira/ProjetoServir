@@ -6,11 +6,15 @@
 package br.com.servirjanuaria.amauri.domainModel;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -33,7 +37,7 @@ public class Aluno extends Pessoa implements Serializable {
     @Column(name = "cidade_nascimento", nullable = false)
     private String cidadeNascimento;
 
-    @Column(name = "estados", nullable = false)
+    @Column(name = "estados", length = 2, nullable = false)
     private String estado;
 
     @Column(name = "nacionalidade", nullable = false)
@@ -42,22 +46,43 @@ public class Aluno extends Pessoa implements Serializable {
     @Column(name = "fotos", nullable = true)
     private String foto;
 
-    @ManyToOne
+    @Column(name = "status", length = 7, nullable = true)
+    private String status;
+
+    @ManyToOne()
     private CertidaoNascimento certidaoNascimento;
 
     @ManyToOne()
     private Pessoa pessoa;
-    
+
+    @ManyToMany
+    @JoinTable(name = "aluno_has_programaSocial", joinColumns = {
+        @JoinColumn(name = "aluno_id")}, inverseJoinColumns = {
+        @JoinColumn(name = "programaSocial_id")})
+    private List<ProgramaSocial> ListaProgramasSociais;
+
+    @ManyToMany
+    @JoinTable(name = "aluno_has_deficiencia", joinColumns = {
+        @JoinColumn(name = "cliente_id")}, inverseJoinColumns = {
+        @JoinColumn(name = "deficiencia_id")})
+    private List<Deficiencia> listaDeficiencia;
+
     @ManyToOne()
     private Pai pai;
-    
+
     @ManyToOne()
     private Mae mae;
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -68,6 +93,14 @@ public class Aluno extends Pessoa implements Serializable {
 
     public void setEtnia(String etnia) {
         this.etnia = etnia;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getCidadeNascimento() {
@@ -118,6 +151,22 @@ public class Aluno extends Pessoa implements Serializable {
         this.pessoa = pessoa;
     }
 
+    public List<ProgramaSocial> getListaProgramasSociais() {
+        return ListaProgramasSociais;
+    }
+
+    public void setListaProgramasSociais(List<ProgramaSocial> ListaProgramasSociais) {
+        this.ListaProgramasSociais = ListaProgramasSociais;
+    }
+
+    public List<Deficiencia> getListaDeficiencia() {
+        return listaDeficiencia;
+    }
+
+    public void setListaDeficiencia(List<Deficiencia> listaDeficiencia) {
+        this.listaDeficiencia = listaDeficiencia;
+    }
+
     public Pai getPai() {
         return pai;
     }
@@ -134,7 +183,6 @@ public class Aluno extends Pessoa implements Serializable {
         this.mae = mae;
     }
 
-    
     @Override
     public int hashCode() {
         int hash = 0;

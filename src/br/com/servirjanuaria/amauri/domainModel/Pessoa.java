@@ -36,7 +36,7 @@ public class Pessoa implements Serializable {
     @Column(name = "nome", length = 255, nullable = false)
     private String nome;
 
-    @Column(name = "sexo", length = 1, nullable = false)
+    @Column(name = "sexo", length = 1, nullable = true)
     private String sexo;
 
     @Column(name = "rg", length = 11, nullable = false, unique = true)
@@ -46,8 +46,8 @@ public class Pessoa implements Serializable {
     private String cpf;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "data_nascimento", nullable = false)
-    private Date dataNascimento;
+    @Column(name = "data_nascimento", nullable = true)
+    private Date dataNascimento;    
 
     @ManyToOne
     private Endereco endereco;

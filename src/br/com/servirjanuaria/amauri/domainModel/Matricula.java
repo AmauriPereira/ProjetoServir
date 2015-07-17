@@ -49,6 +49,9 @@ public class Matricula implements Serializable {
     @ManyToOne()
     private UnidadeEscolar unidadeEscolar;
 
+    @ManyToOne()
+    private Aluno aluno;
+
     public Long getId() {
         return id;
     }
@@ -88,16 +91,18 @@ public class Matricula implements Serializable {
     }
 
     public void setTurno(String turno) {
-        if (null != turno) switch (turno) {
-            case "Matutino":
-                this.turno = 1;
-                break;
-            case "Vespertino":
-                this.turno = 2;
-                break;
-            case "Noturno":
-                this.turno = 3;
-                break;
+        if (null != turno) {
+            switch (turno) {
+                case "Matutino":
+                    this.turno = 1;
+                    break;
+                case "Vespertino":
+                    this.turno = 2;
+                    break;
+                case "Noturno":
+                    this.turno = 3;
+                    break;
+            }
         }
 
     }
@@ -116,6 +121,14 @@ public class Matricula implements Serializable {
 
     public void setUnidadeEscolar(UnidadeEscolar unidadeEscolar) {
         this.unidadeEscolar = unidadeEscolar;
+    }
+
+    public Aluno getAluno() {
+        return aluno;
+    }
+
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
     }
 
     @Override

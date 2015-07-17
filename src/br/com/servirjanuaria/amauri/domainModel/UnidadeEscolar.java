@@ -56,7 +56,7 @@ public class UnidadeEscolar implements Serializable {
     }
 
     public void setTelefone(String telefone) {
-        this.telefone = telefone;
+        this.telefone = telefone.replace("(", "").replace(")", "").replace("-", "");
     }
 
     public String getContato() {

@@ -6,11 +6,13 @@
 package br.com.servirjanuaria.amauri.domainModel;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -18,7 +20,7 @@ import javax.persistence.Table;
  * @author Amauri
  */
 @Entity
-@Table(name = "deficiecias")
+@Table(name = "deficiencias")
 public class Deficiencia implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,6 +30,10 @@ public class Deficiencia implements Serializable {
 
     @Column(name = "nome", length = 255, nullable = false)
     private String nome;
+
+    //bi-directional many-to-many association to Aluno
+    @ManyToMany(mappedBy = "listaDeficiencia")
+    private List<Aluno> listaAluno;
 
     public Long getId() {
         return id;
@@ -43,6 +49,14 @@ public class Deficiencia implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public List<Aluno> getListaAluno() {
+        return listaAluno;
+    }
+
+    public void setListaAluno(List<Aluno> listaAluno) {
+        this.listaAluno = listaAluno;
     }
 
     @Override

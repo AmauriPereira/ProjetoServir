@@ -13,12 +13,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author Amauri
  */
 @Entity
+@Table(name = "pais")
 public class Pai extends Pessoa implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,10 +37,16 @@ public class Pai extends Pessoa implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private Pessoa pessoa;
 
+    /**
+     *
+     * @return
+     */
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -47,8 +55,8 @@ public class Pai extends Pessoa implements Serializable {
         return telefone;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+   public void setTelefone(String telefone) {
+        this.telefone = telefone.replace("(", "").replace(")", "").replace("-", "");
     }
 
     public String getLocalTrabalho() {
